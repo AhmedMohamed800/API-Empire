@@ -11,12 +11,12 @@ CREATE TABLE IF NOT EXISTS auth (
 CREATE TABLE IF NOT EXISTS user (
     id INT PRIMARY KEY AUTO_INCREMENT,
     email VARCHAR(255) UNIQUE,
-    hased_password VARCHAR(255),
+    hashed_password VARCHAR(255),
     first_name VARCHAR(255),
     last_name VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     session_id VARCHAR(255),
-    rest_token VARCHAR(255),
+    reset_token VARCHAR(255),
     role ENUM('admin', 'user') DEFAULT 'user',
     auth_id INT,
     FOREIGN KEY (auth_id) REFERENCES auth(id)
@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS API (
     id INT PRIMARY KEY AUTO_INCREMENT,
     title VARCHAR(255),
     description TEXT,
+    category VARCHAR(255),
     image_cover VARBINARY(255)
 );
 
@@ -48,6 +49,7 @@ CREATE TABLE IF NOT EXISTS endpoint (
     method ENUM('GET', 'POST', 'PUT', 'DELETE'),
     reponse_ex TEXT,
     api_id INT,
+    category VARCHAR(255),
     FOREIGN KEY (api_id) REFERENCES API(id)
 );
 
