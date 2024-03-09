@@ -11,6 +11,7 @@ class API(BaseModel, Base):
     title = Column(String(255), nullable=False)
     description = Column(Text, nullable=False)
     image_cover = Column(VARBINARY(255), nullable=True)
+    category = Column(String(255), nullable=False)
     
     def __init__(self, *args, **kwargs):
         """initializes API object"""

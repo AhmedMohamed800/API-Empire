@@ -17,6 +17,7 @@ class Endpoint(BaseModel, Base):
     description = Column(Text, nullable=False)
     status_code = Column(Integer, nullable=False)
     response_ex = Column(Text, nullable=False)
+    category = Column(String(255), nullable=False)
     api_id = Column(Integer, ForeignKey('API.id'))
     
     api = relationship("API")

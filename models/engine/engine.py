@@ -41,7 +41,7 @@ class DBStorage:
             if cls is None or cls is classes[clss] or cls is clss:
                 objs = self.__session.query(classes[clss]).all()
                 for obj in objs:
-                    key = obj.__class__.__name__ + '.' + obj.id
+                    key = obj.__class__.__name__ + '.' + str(obj.id)
                     new_dict[key] = obj
         return (new_dict)
 
@@ -68,20 +68,20 @@ class DBStorage:
         """call remove() method on the private session attribute"""
         self.__session.remove()
 
-    def get(self, cls, id):
+    def get(self, cls, **kwargs):
         """
         Returns the object based on the class name and its ID, or
         None if not found
         """
-        if cls not in classes.values():
+        if cls not in classes.keys():
             return None
 
-        all_cls = models.storage.all(cls)
-        for value in all_cls.values():
-            if (value.id == id):
-                return value
+        for key in kwargs.keys():
+            if key not in classes[cls].__table__.columns.keys():
+                return None
+        print('kwargs:', kwargs)
+        return self.__session.query(classes[cls]).filter_by(**kwargs).first()
 
-        return None
 
     def count(self, cls=None):
         """
