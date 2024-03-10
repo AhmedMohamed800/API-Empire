@@ -79,9 +79,11 @@ class DBStorage:
         for key in kwargs.keys():
             if key not in classes[cls].__table__.columns.keys():
                 return None
-        print('kwargs:', kwargs)
         return self.__session.query(classes[cls]).filter_by(**kwargs).first()
-
+    
+    def update(self, cls, **kwargs):
+        """ update the object """
+        self.__session.query(cls.__class__).filter_by(email=cls.email).update(kwargs)
 
     def count(self, cls=None):
         """
