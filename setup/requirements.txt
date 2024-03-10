@@ -1,0 +1,7 @@
+flask
+pyodbc
+sqlalchemy
+bcrypt
+flask_sqlalchemy
+flask-cors
+Flask-Mail
