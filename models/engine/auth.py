@@ -43,10 +43,13 @@ class Auth:
         user = self.__storage.get('User', session_id=session_id)
         if not user:
             raise ValueError("no user found")
-        del user.hashed_password
-        del user.session_id
-        del user.id
-        return user
+        data ={}
+        data['first_name'] = user.first_name
+        data['last_name'] = user.last_name
+        data['created_at'] = user.created_at
+        data['email'] = user.email
+        data['role'] = user.role
+        return data
     
     def login(self, email, password):
         """ login """
