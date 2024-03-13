@@ -1,9 +1,21 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
+import { useEffect } from "react";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 const code_testing = require("../assets/auth/code_testing.svg") as string;
 const letter_a = require("../assets/auth/letter_a.svg") as string;
 
 function Auth() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const session = Cookies.get("session");
+    if (session) {
+      navigate("/APIs");
+    }
+  }, []);
+
   return (
     <main className=" flex h-screen  ">
       <section className="relative flex w-[50%] items-center justify-center overflow-hidden bg-primary max-lg:hidden">
