@@ -53,7 +53,7 @@ class Auth:
         user = self.__storage.get('User', email=email)
         if not user:
             raise ValueError("no user found")
-        if not checkpw(password.encode(), user.hashed_password):
+        if not checkpw(password.encode('utf-8'), user.hashed_password.encode()):
             raise ValueError("invalid password")
         return self.create_session(user)
     

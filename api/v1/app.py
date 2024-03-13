@@ -8,9 +8,11 @@ from flask_mail import Mail, Message
 from flask_cors import CORS
 from flasgger import Swagger
 from datetime import timedelta
+import secrets
 
 
 app = Flask(__name__)
+app.secret_key = secrets.token_hex(16)
 app.config.from_object(Config)
 app.url_map.strict_slashes = False
 app.permanent_session_lifetime = timedelta(days=90)
