@@ -1,0 +1,29 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+
+@layer components {
+  .label {
+    @apply flex flex-col gap-2;
+  }
+  .label_span {
+    @apply text-lg font-bold text-neutral-400;
+  }
+  .input {
+    @apply w-full rounded-md border-2 border-white bg-transparent p-3 text-sm text-neutral-600 focus:outline-none;
+  }
+}
+
+@layer utilities {
+  input[type="checkbox"]:checked + svg {
+    display: block;
+  }
+}
+
+@layer base {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+}
