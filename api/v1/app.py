@@ -10,8 +10,7 @@ from flasgger import Swagger
 from datetime import timedelta
 
 
-app = Flask(__name__, static_folder='./build',
-            static_url_path='/')
+app = Flask(__name__)
 app.config.from_object(Config)
 app.url_map.strict_slashes = False
 app.permanent_session_lifetime = timedelta(days=90)
@@ -26,16 +25,15 @@ def close_db(error):
     AUTH.close()
 
 
-@app.route('/')
-def frond_end():
-    return app.send_static_file('index.html')
-
-
 @app.errorhandler(404)
-def not_found(e):
-    return app.send_static_file('index.html')
-
-
+def not_found(error):
+    """ 404 Error
+    ---
+    responses:
+      404:
+        description: a resource was not found
+    """
+    return make_response(jsonify({'error': "Not found"}), 404)
 
 app.config['SWAGGER'] = {
     'title': 'API Empire',
