@@ -74,7 +74,7 @@ def login():
             if request.form.get('remeber_me'):
                 session.permanent = True
             return jsonify({"email": request.form.get('email'),
-                            "message": "logged in"}), 200
+                            "session": session['session_id']}), 200
         except ValueError as e:
             return jsonify({"error": str(e)}), 400
     try:
