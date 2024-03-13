@@ -5,9 +5,11 @@ interface LabelProps {
   type: string;
   placeholder?: string;
   name: string;
+  handle: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  value: any;
 }
 
-const Label = ({ id, type, placeholder, name }: LabelProps) => {
+const Label = ({ id, type, placeholder, name, handle, value }: LabelProps) => {
   if (type === "checkbox") {
     return (
       <label
@@ -17,6 +19,9 @@ const Label = ({ id, type, placeholder, name }: LabelProps) => {
         <input
           type={type}
           id={id}
+          value={value}
+          onChange={handle}
+          name={name}
           className="h-4 w-4 cursor-pointer appearance-none rounded-sm border-2   border-white checked:border-transparent  checked:bg-primary focus:outline-none "
         />
         <svg
@@ -35,7 +40,15 @@ const Label = ({ id, type, placeholder, name }: LabelProps) => {
   return (
     <label htmlFor={id} className="label">
       <span className="label_span">{name}</span>
-      <input type={type} placeholder={placeholder} id={id} className="input" />
+      <input
+        type={type}
+        placeholder={placeholder}
+        id={id}
+        name={name}
+        value={value}
+        className="input"
+        onChange={handle}
+      />
     </label>
   );
 };

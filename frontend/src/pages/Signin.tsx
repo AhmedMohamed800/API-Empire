@@ -2,8 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Label from "../components/Auth/Label.tsx";
 const logo = require("../assets/logo.svg") as string;
+import { useForm } from "../components/Auth/SinginHook.tsx";
 
 function Signin() {
+  const { form, error, handleForm, submitForm } = useForm();
   return (
     <section className="flex w-[50%] flex-col items-center gap-10   bg-background px-20 pt-[55px] max-lg:w-[100%]">
       <article className="flex flex-col items-center justify-center gap-1 font-semibold">
@@ -17,7 +19,10 @@ function Signin() {
           Unleash the Power of Connectivity
         </p>
       </article>
-      <form className="relative z-10 flex w-full flex-col rounded-md border border-white bg-black p-8">
+      <form
+        onSubmit={submitForm}
+        className="relative z-10 flex w-full flex-col rounded-md border border-white bg-black p-8"
+      >
         <div className="mb-6 text-white">
           <h1 className="text-2xl font-extrabold">Sign In</h1>
           <p className="text-md font-semibold">
@@ -35,22 +40,36 @@ function Signin() {
             id="email"
             type="email"
             placeholder="Enter your email"
-            name="Email"
+            name="email"
+            handle={handleForm}
+            value={form.email}
           />
           <Label
             id="password"
             type="password"
             placeholder="Enter your password"
-            name="Password"
+            name="password"
+            handle={handleForm}
+            value={form.password}
           />
         </div>
-        <Link
-          to="/auth/forget"
-          className="my-3 w-fit text-sm font-bold text-primary hover:opacity-80"
-        >
-          Forgot your password?
-        </Link>
-        <Label id="remember" type="checkbox" name="Remember me" />
+        <p className="text-red-500">{error}</p>
+        <div className="my-3 flex flex-row-reverse justify-between">
+          <Link
+            to="/auth/forget"
+            className=" w-fit text-sm font-bold text-primary hover:opacity-80"
+          >
+            Forgot your password?
+          </Link>
+          <Label
+            id="remember"
+            type="checkbox"
+            name="Remember me"
+            handle={handleForm}
+            value={form.remember_me}
+          />
+        </div>
+
         <button className="mt-6 rounded-md bg-primary py-3 font-bold text-white hover:opacity-80">
           Sign In
         </button>
