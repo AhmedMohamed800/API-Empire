@@ -20,6 +20,11 @@ module.exports = {
         "neutral-300": "#B0B0B0",
         "neutral-400": "#888888",
         "neutral-500": "#6E6E6E",
+        "neutral-600": "#C0C0C0",
+        background: "#18181B",
+      },
+      fontFamily: {
+        inter: ["Inter", "sans-serif"],
       },
     },
   },
