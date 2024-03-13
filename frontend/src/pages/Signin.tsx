@@ -2,12 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Label from "../components/Auth/Label.tsx";
 const logo = require("../assets/logo.svg") as string;
-import { useForm } from "../components/Auth/SinginHook.tsx";
+const cover = require("../assets/auth/cover.svg") as string;
+import { useFormIN } from "../components/Auth/AuthHook.tsx";
 
 function Signin() {
-  const { form, error, handleForm, submitForm } = useForm();
+  const { form, error, handleForm, submitForm } = useFormIN();
   return (
-    <section className="flex w-[50%] flex-col items-center gap-10   bg-background px-20 pt-[55px] max-lg:w-[100%]">
+    <section className="flex w-[50%] flex-col items-center gap-10 bg-background px-20 pt-[55px] max-lg:w-[100%] max-sm:px-5">
       <article className="flex flex-col items-center justify-center gap-1 font-semibold">
         <h1 className="flex items-center gap-1 text-2xl  text-white">
           <span>
@@ -40,7 +41,7 @@ function Signin() {
             id="email"
             type="email"
             placeholder="Enter your email"
-            name="email"
+            name="Email"
             handle={handleForm}
             value={form.email}
           />
@@ -48,13 +49,13 @@ function Signin() {
             id="password"
             type="password"
             placeholder="Enter your password"
-            name="password"
+            name="Password"
             handle={handleForm}
             value={form.password}
           />
         </div>
         <p className="text-red-500">{error}</p>
-        <div className="my-3 flex flex-row-reverse justify-between">
+        <div className="my-3 flex flex-row-reverse justify-between gap-2 max-sm:flex-col-reverse">
           <Link
             to="/auth/forget"
             className=" w-fit text-sm font-bold text-primary hover:opacity-80"
@@ -73,6 +74,14 @@ function Signin() {
         <button className="mt-6 rounded-md bg-primary py-3 font-bold text-white hover:opacity-80">
           Sign In
         </button>
+
+        <img
+          src={cover}
+          alt="cover"
+          width="44.88px"
+          height="74px"
+          className=" absolute right-0 top-0"
+        />
       </form>
 
       <div className=" absolute -right-10 bottom-0  h-56 w-56 rounded-full bg-primary blur-[160px]"></div>
