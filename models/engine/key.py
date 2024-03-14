@@ -5,9 +5,6 @@ from models.engine.auth import Auth as a
 from uuid import uuid4
 import base64
 
-AUTH = a()
-AUTH.reload()
-
 
 class Key:
     """key class"""
@@ -23,7 +20,7 @@ class Key:
         """create key"""
         if not session_id:
             raise ValueError("no session found")
-        user = AUTH.get_user(session_id=session_id)
+        user = self.__storage.get('User', session_id=session_id)
         if not user:
             raise ValueError("no user found")
         key = Auth()
