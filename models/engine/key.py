@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 from models.engine.engine import DBStorage
 from models.auth import Auth
-from models import AUTH
+from models.engine.auth import Auth as a
 from uuid import uuid4
 import base64
+
+AUTH = a()
+AUTH.reload()
 
 
 class Key:
