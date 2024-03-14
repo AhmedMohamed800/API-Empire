@@ -82,5 +82,3 @@ def login():
         request.headers.pop('session_id')
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
-    
-    
