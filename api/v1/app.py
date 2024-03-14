@@ -61,6 +61,8 @@ def forgot():
 def test():
     """test"""
     users = AUTH.all_users()
+    for user in range(len(users)):
+        users[user] = users[user].to_dict()
     return jsonify(users), 200
 
 
