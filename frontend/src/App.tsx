@@ -8,6 +8,7 @@ import User from "./pages/User.tsx";
 import React from "react";
 import Billing from "./pages/Billing.tsx";
 import Traffic from "./pages/Traffic.tsx";
+import ResetPassowrd from "./pages/ResetPassowrd.tsx";
 import { Route, Routes } from "react-router-dom";
 
 const App = () => {
@@ -17,6 +18,7 @@ const App = () => {
         <Route path="/auth/sign_in" element={<Signin />} />
         <Route path="/auth/sign_up" element={<Signup />} />
         <Route path="/auth/forget" element={<ForgetPassword />} />
+        <Route path="/auth/reset/:token" element={<ResetPassowrd />} />
       </Route>
       <Route element={<Application />}>
         <Route path="/APIs" element={<APIs />} />

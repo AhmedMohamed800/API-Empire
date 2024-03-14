@@ -1,6 +1,8 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import Cookies from "js-cookie";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface NavDropProps {
   Dropdown: boolean;
@@ -8,8 +10,24 @@ interface NavDropProps {
 }
 
 const NavDrop = ({ Dropdown, setDropdown }: NavDropProps) => {
+  const navigate = useNavigate();
+
   function logout() {
-    Cookies.remove("session");
+    axios
+      .delete(`${process.env.REACT_APP_API_URL}/api/v1/login`, {
+        headers: {
+          "session-id": JSON.parse(Cookies.get("session")),
+        },
+      })
+      .then(() => {
+        Cookies.remove("session");
+        navigate("/auth/sign_in");
+      })
+      .catch((error) => {
+        Cookies.remove("session");
+        navigate("/auth/sign_in");
+        console.log(error);
+      });
   }
 
   return (
@@ -40,9 +58,12 @@ const NavDrop = ({ Dropdown, setDropdown }: NavDropProps) => {
       >
         Traffic
       </NavLink>
-      <NavLink to="/auth/sign_in" onClick={logout}>
+      <button
+        onClick={logout}
+        className="px-2 py-3 text-[16px] hover:opacity-80"
+      >
         Logout
-      </NavLink>
+      </button>
     </div>
   );
 };
