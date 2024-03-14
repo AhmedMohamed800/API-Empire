@@ -4,11 +4,16 @@ import Label from "../components/Auth/Label.tsx";
 const logo = require("../assets/logo.svg") as string;
 const cover = require("../assets/auth/cover.svg") as string;
 import { useFormIN } from "../components/Auth/AuthHook.tsx";
+import { useEffect } from "react";
 
 function Signin() {
+  useEffect(() => {
+    document.title = "Sign In";
+  }, []);
+
   const { form, error, handleForm, submitForm } = useFormIN();
   return (
-    <section className="flex w-[50%] flex-col items-center gap-10 bg-background px-20 pt-[55px] max-lg:w-[100%] max-sm:px-5">
+    <section className="flex w-[50%] flex-col  items-center gap-10 bg-background px-20 pt-[55px] max-lg:w-[100%] max-sm:px-5">
       <article className="flex flex-col items-center justify-center gap-1 font-semibold">
         <h1 className="flex items-center gap-1 text-2xl  text-white">
           <span>
@@ -22,7 +27,8 @@ function Signin() {
       </article>
       <form
         onSubmit={submitForm}
-        className="relative z-10 flex w-full flex-col rounded-md border border-white bg-black p-8"
+        autoComplete="off"
+        className="relative z-10 flex w-full flex-col rounded-md border border-white bg-black p-8 "
       >
         <div className="mb-6 text-white">
           <h1 className="text-2xl font-extrabold">Sign In</h1>

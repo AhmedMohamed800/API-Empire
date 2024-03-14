@@ -22,7 +22,6 @@ const Label = ({ id, type, placeholder, name, handle, value }: LabelProps) => {
           value={value}
           onChange={handle}
           name={name}
-          required
           className="h-4 w-4 cursor-pointer appearance-none rounded-sm border-2   border-white checked:border-transparent  checked:bg-primary focus:outline-none "
         />
         <svg
@@ -48,6 +47,7 @@ const Label = ({ id, type, placeholder, name, handle, value }: LabelProps) => {
         name={name}
         value={value}
         required
+        autoComplete="none"
         className="input"
         onChange={handle}
       />

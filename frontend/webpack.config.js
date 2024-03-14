@@ -64,6 +64,7 @@ module.exports = {
       title: "React App",
       filename: "index.html",
       template: "public/index.html",
+      favicon: "public/favicon.ico",
     }),
     new Dotenv({
       path: "./src/.env",

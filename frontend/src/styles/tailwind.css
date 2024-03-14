@@ -5,13 +5,13 @@
 
 @layer components {
   .label {
-    @apply flex flex-col gap-2;
+    @apply flex flex-col gap-2 active:text-neutral-400;
   }
   .label_span {
     @apply text-lg font-bold text-neutral-400;
   }
   .input {
-    @apply w-full rounded-md border-2 border-white bg-transparent p-3 text-sm text-neutral-600 focus:outline-none;
+    @apply w-full rounded-md border-2 border-white bg-transparent p-3 text-sm text-neutral-600 focus:outline-none active:text-neutral-400;
   }
 }
 
@@ -24,6 +24,14 @@
 @layer base {
   html,
   body {
+    position: relative;
     overflow-x: hidden;
+  }
+  #photo {
+    background: linear-gradient(
+      180deg,
+      rgba(21, 57, 158, 0) 0%,
+      rgba(15, 43, 135, 0.5) 100%
+    );
   }
 }

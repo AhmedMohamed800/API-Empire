@@ -3,9 +3,13 @@ import Label from "../components/Auth/Label.tsx";
 const logo = require("../assets/logo.svg") as string;
 const cover = require("../assets/auth/cover.svg") as string;
 import { useFormForget } from "../components/Auth/AuthHook.tsx";
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 const ForgetPassword = () => {
+  useEffect(() => {
+    document.title = "Forget Password";
+  }, []);
+
   const { form, handleForm, submitForm } = useFormForget();
   return (
     <section className="flex w-[50%] flex-col items-center justify-center gap-10 bg-background px-20 pt-[55px] max-lg:w-[100%] max-sm:px-5">

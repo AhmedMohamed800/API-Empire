@@ -17,7 +17,7 @@ function Auth() {
   }, []);
 
   return (
-    <main className=" flex h-screen  ">
+    <main className=" flex max-h-full min-h-screen max-sm:pb-10 ">
       <section className="relative flex w-[50%] items-center justify-center overflow-hidden bg-primary max-lg:hidden">
         <img
           src={letter_a}
