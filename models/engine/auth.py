@@ -37,8 +37,12 @@ class Auth:
         self.__storage.save()
         return True
     
-    def get_user(self, session_id):
+    def get_user(self, **kwargs):
         """ get all users """
+        if 'session_id' in kwargs:
+            session_id = kwargs['session_id']
+        elif 'email' in kwargs:
+            session_id = kwargs['email']
         if not session_id:
             raise ValueError("no session found")
         user = self.__storage.get('User', session_id=session_id)

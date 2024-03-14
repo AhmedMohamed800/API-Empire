@@ -34,7 +34,7 @@ def users():
     """
     if request.method == 'GET':
         try:
-            user = AUTH.get_user(request.headers.get('session-id'))
+            user = AUTH.get_user(session_id=request.headers.get('session-id'))
             return jsonify(user), 200
         except ValueError as e:
             return jsonify({"error": str(e)}), 400
@@ -101,7 +101,7 @@ def reset():
     password = request.form.get('password')
     token = request.headers.get('reset-token')
     try:
-        AUTH.update_password(token, password)
+        AUTH.reset_password(token, password)
         return jsonify({"message": "Password reset successfully"}), 200
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
