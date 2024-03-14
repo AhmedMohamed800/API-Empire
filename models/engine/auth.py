@@ -120,6 +120,14 @@ class Auth:
         user.hashed_password = hashpw(new_password.encode(), gensalt())
         user.reset_token = None
         self.__storage.save()
+        return True
+
+    def get_user_with(self, **kwargs):
+        """ get user with """
+        user = self.__storage.get('User', **kwargs)
+        if not user:
+            raise ValueError("no user found")
+        return user
     
     def all_users(self):
         """ all users """

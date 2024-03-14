@@ -44,7 +44,7 @@ def forgot():
     email = request.form.get('email')
     try:
         token = AUTH.forgot_password(email)
-        first_name = AUTH.get_user(email=email).first_name
+        first_name = AUTH.get_user_with(email=email).first_name
         email_body = render_template('forgot.html', token=token,
                                      first_name=first_name)
         msg = Message('Password Reset',
