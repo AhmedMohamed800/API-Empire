@@ -92,6 +92,35 @@ class Auth:
         user.session_id = str(uu())
         self.__storage.save()
         return user.session_id
+    
+    def forgot_password(self, email):
+        """ forgot password """
+        if not email:
+            raise ValueError("email is required")
+        user = self.__storage.get('User', email=email)
+        if not user:
+            raise ValueError("no user found")
+        user.reset_token = str(uu())
+        self.__storage.save()
+        return user.reset_token
+    
+    def reset_password(self, reset_token, new_password):
+        """ reset password """
+        if not reset_token:
+            raise ValueError("reset token is required")
+        if not new_password:
+            raise ValueError("new password is required")
+        user = self.__storage.get('User', reset_token=reset_token)
+        if not user:
+            raise ValueError("no user found")
+        user.hashed_password = hashpw(new_password.encode(), gensalt())
+        user.reset_token = None
+        self.__storage.save()
+    
+    def all_users(self):
+        """ all users """
+        users = [user for user in self.__storage.all(User)]
+        return users
 
     def close(self):
         """ close """
