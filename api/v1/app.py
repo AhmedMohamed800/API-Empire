@@ -3,7 +3,7 @@
 from models import AUTH
 from api.v1.views import app_views
 from models.config import Config
-from flask import Flask, make_response, jsonify
+from flask import Flask, jsonify, request, render_template
 from flask_mail import Mail, Message
 from flask_cors import CORS
 from flasgger import Swagger
@@ -35,7 +35,26 @@ def not_found(error):
       404:
         description: a resource was not found
     """
-    return make_response(jsonify({'error': "Not found"}), 404)
+    return jsonify({'error': "Not found"}), 404
+
+
+@app.route('/forgot_password', methods=['POST'])
+def forgot():
+    """send email to user with reset link"""
+    email = request.form.get('email')
+    try:
+        token = AUTH.forgot_password(email)
+        first_name = AUTH.get_user(email=email).first_name
+        email_body = render_template('forgot.html', token=token,
+                                     first_name=first_name)
+        msg = Message('Password Reset',
+                      recipients=[email],
+                      html=email_body)
+        mail.send(msg)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+    return jsonify({'Message': 'check your email'}), 200
+
 
 app.config['SWAGGER'] = {
     'title': 'API Empire',

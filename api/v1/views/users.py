@@ -10,9 +10,8 @@ Routes:
     - /login: Endpoint for user login and logout.
 """
 from api.v1.views import app_views
-from flask import jsonify, request, session
+from flask import jsonify, request
 from models import AUTH
-from time import time
 
 
 @app_views.route('/user', methods=['GET', 'POST', 'PUT'], strict_slashes=False)
@@ -80,5 +79,29 @@ def login():
     try:
         AUTH.logout(request.headers.get('session-id'))
         return jsonify({"message": "Successfully logged out"}), 200
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+
+
+@app_views.route('/reset', methods=['POST'], strict_slashes=False)
+def reset():
+    """Handles the reset endpoint.
+
+    This function handles the reset endpoint for the API.
+    It allows users to reset their password by providing their email and
+    a new password.
+
+    Returns:
+        A JSON response containing the email and a message indicating\
+            whether the password has been successfully reset.
+
+    Raises:
+        ValueError: If there is an error during the password reset process.
+    """
+    password = request.form.get('password')
+    token = request.headers.get('reset-token')
+    try:
+        AUTH.update_password(token, password)
+        return jsonify({"message": "Password reset successfully"}), 200
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
