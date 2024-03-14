@@ -98,7 +98,7 @@ def reset():
     Raises:
         ValueError: If there is an error during the password reset process.
     """
-    password = request.form.get('password')
+    password = request.get_json().get('password')
     token = request.headers.get('reset-token')
     try:
         AUTH.reset_password(token, password)
