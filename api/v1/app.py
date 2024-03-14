@@ -41,7 +41,7 @@ def not_found(error):
 @app.route('/forgot_password', methods=['POST'])
 def forgot():
     """send email to user with reset link"""
-    email = request.form.get('email')
+    email = request.get_json().get('email')
     try:
         token = AUTH.forgot_password(email)
         first_name = AUTH.get_user_with(email=email).first_name
