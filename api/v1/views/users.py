@@ -11,7 +11,7 @@ Routes:
 """
 from api.v1.views import app_views
 from flask import jsonify, request
-from models import AUTH
+from models import AUTH, KEY
 
 
 @app_views.route('/user', methods=['GET', 'POST', 'PUT'], strict_slashes=False)
@@ -103,5 +103,25 @@ def reset():
     try:
         AUTH.reset_password(token, password)
         return jsonify({"message": "Password reset successfully"}), 200
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+
+@app_views.route('/get_key', methods=['POST'], strict_slashes=False)
+def get_key():
+    """Handles the get_key endpoint.
+
+    This function handles the get_key endpoint for the API.
+    It allows users to get their API key.
+
+    Returns:
+        A JSON response containing the email and the API key.
+
+    Raises:
+        ValueError: If there is an error during the API key retrieval process.
+    """
+    try:
+        key = KEY.create_key(request.get_json().get('session-id'))
+        return jsonify({"message": "API key created successfully",
+                        "key": key}), 201
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
