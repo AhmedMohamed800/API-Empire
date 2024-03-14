@@ -35,7 +35,7 @@ def users():
     """
     if request.method == 'GET':
         try:
-            user = AUTH.get_user(request.headers.get('session_id'))
+            user = AUTH.get_user(request.headers.get('session-id'))
             return jsonify(user), 200
         except ValueError as e:
             return jsonify({"error": str(e)}), 400
