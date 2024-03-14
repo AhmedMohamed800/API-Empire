@@ -12,6 +12,7 @@ Routes:
 from api.v1.views import app_views
 from flask import jsonify, request, session
 from models import AUTH
+from time import time
 
 
 @app_views.route('/user', methods=['GET', 'POST', 'PUT'], strict_slashes=False)
@@ -34,13 +35,13 @@ def users():
     """
     if request.method == 'GET':
         try:
-            user = AUTH.get_user(session['session_id'])
+            user = AUTH.get_user(request.cookies.get('session_id'))
             return jsonify(user), 200
         except ValueError as e:
             return jsonify({"error": str(e)}), 400
     elif request.method == 'PUT':
         try:
-            AUTH.update_user(session['session_id'], **request.form.to_dict())
+            AUTH.update_user(request.cookies.get('session_id'), **request.form.to_dict())
             return jsonify({}), 200
         except ValueError as e:
             return jsonify({"error": str(e)}), 400
@@ -69,18 +70,19 @@ def login():
     """
     if request.method == 'POST':
         try:
-            session['session_id'] = AUTH.login(request.form.get('email'),
-                                               request.form.get('password'))
+            session_id = AUTH.login(request.form.get('email'),
+                                    request.form.get('password'))
             if request.form.get('remeber_me'):
-                session.permanent = True
-            return jsonify({"email": request.form.get('email'),
+                maxtime = time() + (60 * 60 * 24 * 30 * 3)
+            res = jsonify({"email": request.form.get('email'),
                             "session": session['session_id']}), 200
+            res.set_cookie('session_id', session_id, max_age=maxtime)
+            
         except ValueError as e:
             return jsonify({"error": str(e)}), 400
     try:
-        AUTH.logout(session['session_id'])
-        del session['session_id']
+        AUTH.logout(request.cookies.get('session_id'))
+        request.cookies.pop('session_id')
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
-    return jsonify({"email": request.form.get('email'),
-                    "message": "logged out"})
+    
