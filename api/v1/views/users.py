@@ -79,6 +79,6 @@ def login():
             return jsonify({"error": str(e)}), 400
     try:
         AUTH.logout(request.headers.get('session-id'))
-        request.headers.pop('session-id')
+        return jsonify({"message": "Successfully logged out"}), 200
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
