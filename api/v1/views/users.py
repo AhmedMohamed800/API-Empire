@@ -41,7 +41,7 @@ def users():
             return jsonify({"error": str(e)}), 400
     elif request.method == 'PUT':
         try:
-            AUTH.update_user(request.headers.get('session_id'),
+            AUTH.update_user(request.headers.get('session-id'),
                              **request.form.to_dict())
             return jsonify({}), 200
         except ValueError as e:
@@ -78,7 +78,7 @@ def login():
         except ValueError as e:
             return jsonify({"error": str(e)}), 400
     try:
-        AUTH.logout(request.headers.get('session_id'))
-        request.headers.pop('session_id')
+        AUTH.logout(request.headers.get('session-id'))
+        request.headers.pop('session-id')
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
