@@ -16,7 +16,7 @@ app.secret_key = secrets.token_hex(16)
 app.config.from_object(Config)
 app.url_map.strict_slashes = False
 app.permanent_session_lifetime = timedelta(days=90)
-cors = CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
+cors = CORS(app, resources={r"*": {"origins": "*"}})
 app.register_blueprint(app_views)
 mail = Mail(app)
 
