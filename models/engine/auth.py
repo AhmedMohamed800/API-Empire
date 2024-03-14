@@ -19,7 +19,8 @@ class Auth:
 
     def create_user(self, **kwargs):
         """ create user """
-        admins = ['meemoo102039@gmail.com']
+        admins = ['meemoo102039@gmail.com',
+                  'ahmedmoh0107@gmail.com']
         req = ['email', 'password', 'first_name', 'last_name']
         for r in req:
             if r not in kwargs.keys():
