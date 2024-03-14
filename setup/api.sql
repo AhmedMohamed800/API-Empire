@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS API (
     title VARCHAR(255),
     description TEXT,
     category VARCHAR(255),
-    image_cover VARBINARY(255)
+    image_cover TEXT
 );
 
 CREATE TABLE IF NOT EXISTS endpoint (
