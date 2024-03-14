@@ -57,6 +57,13 @@ def forgot():
     return jsonify({'Message': 'check your email'}), 200
 
 
+@app.route('/test', methods=['GET'])
+def test():
+    """test"""
+    users = AUTH.all_users()
+    return jsonify(users), 200
+
+
 app.config['SWAGGER'] = {
     'title': 'API Empire',
     'uiversion': 1

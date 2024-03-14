@@ -37,5 +37,13 @@ class Key:
         self.__storage.save()
         return tmp
 
-    def get_key(self, **kwargs):
-        return AUTH.get_user(**kwargs).auth
+    def get_key(self, session_id):
+        """get key"""
+        if not session_id:
+            raise ValueError("no session found")
+        user = self.__storage.get('User', session_id=session_id)
+        if not user:
+            raise ValueError("no user found")
+        if user.auth is None:
+            raise ValueError("no key found")
+        return user.auth.hashed_key
