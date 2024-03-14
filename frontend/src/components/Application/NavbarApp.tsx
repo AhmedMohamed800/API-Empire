@@ -7,7 +7,7 @@ import NavDrop from "./NavDrop.tsx";
 import default_photo from "../../assets/application/default_photo.jpeg";
 
 const NavbarApp = () => {
-  const [Dropdown, setDropdown] = useState<boolean>(true);
+  const [Dropdown, setDropdown] = useState<boolean>(false);
   const user = useContext(UserContext);
 
   return (

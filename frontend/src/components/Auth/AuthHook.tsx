@@ -140,22 +140,16 @@ export function useFormForget() {
     if (!form.email) {
       return;
     }
-
-    const LOGINURL = `${process.env.REACT_APP_API_URL}/api/v1/forget`;
     try {
-      const response = await axios.post(
-        LOGINURL,
-        {
-          email: form.email,
-        },
-        {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-        },
-      );
+      const LOGINURL = `${process.env.REACT_APP_API_URL}/forgot_password`;
+      const response = await axios.post(LOGINURL, {
+        email: form.email,
+      });
       navigate("/auth/sign_in");
-    } catch (error) {}
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   function handleForm(e: React.ChangeEvent<HTMLInputElement>): void {
@@ -165,6 +159,62 @@ export function useFormForget() {
   }
 
   return { form, handleForm, submitForm };
+}
+
+interface FormReset {
+  password: string;
+  token: string | undefined;
+  passwordConfirm: string;
+}
+
+export function useFromReset() {
+  const [form, setForm] = useState<FormReset>({
+    password: "",
+    passwordConfirm: "",
+    token: "",
+  });
+
+  const [error, setError] = useState<string>("");
+
+  const navigate = useNavigate();
+
+  async function submitForm(e: any): Promise<void> {
+    setError("");
+    e.preventDefault();
+    if (
+      !form.password ||
+      !form.passwordConfirm ||
+      form.password !== form.passwordConfirm
+    ) {
+      setError("The two passwords should be identical");
+    }
+
+    try {
+      const LOGINURL = `${process.env.REACT_APP_API_URL}/api/v1/reset`;
+      const response = await axios.post(
+        LOGINURL,
+        {
+          password: form.password,
+        },
+        {
+          headers: {
+            "reset-token": form.token,
+          },
+        },
+      );
+      navigate("/auth/sign_in");
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  function handleForm(e: React.ChangeEvent<HTMLInputElement>): void {
+    const id = e.target.id;
+    const value = e.target.value;
+    setForm({ ...form, [id]: value });
+  }
+
+  return { form, handleForm, submitForm, setForm, error };
 }
 
 export const UserContext = createContext({
