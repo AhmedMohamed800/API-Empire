@@ -4,8 +4,12 @@ import Label from "../components/Auth/Label.tsx";
 const logo = require("../assets/logo.svg") as string;
 import { useFormUP } from "../components/Auth/AuthHook.tsx";
 const cover = require("../assets/auth/cover.svg") as string;
+import { useEffect } from "react";
 
 function Signup() {
+  useEffect(() => {
+    document.title = "Sign Up";
+  }, []);
   const { form, error, handleForm, submitForm } = useFormUP();
 
   return (
@@ -37,7 +41,7 @@ function Signup() {
             </Link>
           </p>
         </div>
-        <div className="mb-6 flex w-full gap-6 [&>label]:w-1/2">
+        <div className="mb-6 flex w-full gap-6 max-sm:flex-col [&>label]:w-1/2 max-sm:[&>label]:w-full">
           <Label
             id="first_name"
             type="text"
@@ -77,7 +81,7 @@ function Signup() {
         <p className="text-red-500">{error}</p>
 
         <button className="mt-6 rounded-md bg-primary py-3 font-bold text-white hover:opacity-80">
-          Sign in
+          Sign up
         </button>
 
         <img

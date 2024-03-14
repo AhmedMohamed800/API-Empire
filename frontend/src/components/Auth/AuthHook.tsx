@@ -1,6 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+import { createContext } from "react";
 
 type FormIN = {
   email: string;
@@ -41,7 +43,7 @@ export function useFormIN() {
         },
       );
       const { session } = response.data;
-      document.cookie = `session=${JSON.stringify(session)}; path=/`;
+      Cookies.set("session", JSON.stringify(session));
       navigate("/APIs");
     } catch (error) {
       if (error.response) {
@@ -164,3 +166,9 @@ export function useFormForget() {
 
   return { form, handleForm, submitForm };
 }
+
+export const UserContext = createContext({
+  email: "",
+  first_name: "",
+  last_name: "",
+});
