@@ -7,6 +7,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { UserContext } from "../components/Auth/AuthHook.tsx";
+import Cookies from "js-cookie";
 
 interface User {
   email: string;
@@ -24,16 +25,24 @@ const Application = () => {
 
   useEffect(() => {
     const LOGINURL = `${process.env.REACT_APP_API_URL}/api/v1/user`;
-    axios
-      .get(LOGINURL)
-      .then((response) => {
-        const { email, first_name, last_name } = response.data;
-        setUser({ email, first_name, last_name });
-      })
-      .catch((error) => {
-        console.error(error);
-        // navigate("/auth/sign_in");
-      });
+    let session_id = Cookies.get("session");
+    if (session_id) {
+      axios
+        .get(LOGINURL, {
+          headers: {
+            "session-id": JSON.parse(session_id),
+          },
+        })
+        .then((response) => {
+          const { email, first_name, last_name } = response.data;
+          setUser({ email, first_name, last_name });
+        })
+        .catch((error) => {
+          console.error(error);
+          Cookies.remove("session");
+          navigate("/auth/sign_in");
+        });
+    }
   }, []);
 
   return (
