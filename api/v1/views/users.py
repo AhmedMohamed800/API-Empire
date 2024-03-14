@@ -12,6 +12,7 @@ Routes:
 from api.v1.views import app_views
 from flask import jsonify, request, session
 from models import AUTH
+from time import time
 
 
 @app_views.route('/user', methods=['GET', 'POST', 'PUT'], strict_slashes=False)
@@ -81,4 +82,5 @@ def login():
         request.headers.pop('session_id')
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
+    
     
