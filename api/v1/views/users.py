@@ -121,19 +121,19 @@ def get_key():
         ValueError: If there is an error during the API key retrieval process.
     """
     try:
-        key = KEY.create_key(request.get_json().get('session-id'))
+        key = KEY.create_key(request.headers.get('session-id'))
         return jsonify({"message": "API key created successfully",
                         "key": key}), 201
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
 
 
-@app_views.route('/get_reqs', methods=['POST'], strict_slashes=False)
+@app_views.route('/get_reqs', methods=['GET'], strict_slashes=False)
 def get_reqs():
     """Handles the get_reqs endpoint."""
     try:
         return jsonify(AUTH.get_reqs
-                       (request.get_json()
+                       (request.headers
                         .get('session-id'))), 200
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
