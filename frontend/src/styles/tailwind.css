@@ -15,11 +15,11 @@
   }
   /* Search APIs */
   .search_active {
-    @apply cursor-pointer rounded-md bg-white px-3 py-2 text-primary hover:opacity-90;
+    @apply cursor-pointer rounded-md bg-white px-3 py-2  text-primary hover:opacity-90;
   }
 
   .search_inactive {
-    @apply cursor-pointer rounded-md border border-white px-3 py-2 text-neutral-200 hover:bg-white hover:text-neutral-500;
+    @apply cursor-pointer rounded-md border border-white px-3 py-2  text-neutral-200 hover:bg-white hover:text-neutral-500;
   }
 }
 

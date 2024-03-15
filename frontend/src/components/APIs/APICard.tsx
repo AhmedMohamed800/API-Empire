@@ -17,7 +17,6 @@ const APICard: React.FC<APICardProps> = ({
   category,
 }) => {
   const navigate = useNavigate();
-
   function handleConnect() {
     navigate(`/API/${url}`);
   }

@@ -19,12 +19,13 @@ export const APIs = () => {
     setSelectedCategory,
     selectedCategory,
     searchTerm,
+    Categories,
   } = usePaginatedAPIs(apisPerPage);
 
   return (
     <div className="z-10 flex flex-col  max-sm:mx-5 ">
       <header
-        className={`flex h-16 items-center justify-between gap-2 border-b-2 border-white px-20 ${filterModel && "mb-10"}`}
+        className={`flex h-16 items-center justify-between gap-2 border-b-2 border-white px-20 max-sm:px-0 ${filterModel && "mb-10"}`}
       >
         <div className="flex grow gap-2">
           <img src={search} alt="search" width="24px" height="24px" />
@@ -46,66 +47,31 @@ export const APIs = () => {
         />
       </header>
       <ul
-        className={`mb-6 grid h-24 grid-flow-col place-content-center gap-2 bg-primary ${filterModel && "hidden"}`}
+        className={`mb-6 flex min-h-24 items-center justify-center gap-2 bg-primary p-3 max-sm:flex-col ${filterModel && "hidden"}`}
       >
-        <li
-          data-category="weather"
-          className={
-            selectedCategory === "weather" ? "search_active" : "search_inactive"
-          }
-          onClick={(e) => {
-            const target = e.target as HTMLElement;
-            setSelectedCategory(target.dataset.category as string);
-            paginate(1);
-          }}
-        >
-          Weather
-        </li>
-        <li
-          data-category="data"
-          className={
-            selectedCategory === "data" ? "search_active" : "search_inactive"
-          }
-          onClick={(e) => {
-            const target = e.target as HTMLElement;
-            setSelectedCategory(target.dataset.category as string);
-            paginate(1);
-          }}
-        >
-          Data
-        </li>
-        <li
-          data-category="finance"
-          className={
-            selectedCategory === "finance" ? "search_active" : "search_inactive"
-          }
-          onClick={(e) => {
-            const target = e.target as HTMLElement;
-            setSelectedCategory(target.dataset.category as string);
-
-            paginate(1);
-          }}
-        >
-          Finance
-        </li>
-        <li
-          data-category="ip"
-          className={
-            selectedCategory === "ip" ? "search_active" : "search_inactive"
-          }
-          onClick={(e) => {
-            const target = e.target as HTMLElement;
-            setSelectedCategory(target.dataset.category as string);
-            setfilterModel(false);
-            paginate(1);
-          }}
-        >
-          IP
-        </li>
+        {Categories.length > 0 &&
+          Categories.map((cat) => {
+            return (
+              <li
+                key={cat}
+                data-category={cat}
+                className={`
+                  ${selectedCategory === cat ? "search_active" : "search_inactive"} capitalize
+               `}
+                onClick={(e) => {
+                  const target = e.target as HTMLElement;
+                  setSelectedCategory(target.dataset.category as string);
+                  paginate(1);
+                }}
+              >
+                {cat}
+              </li>
+            );
+          })}
       </ul>
       <main
         ref={topRef}
-        className={`mx-20 mb-6 grid grow  grid-cols-1 grid-rows-1 items-center gap-5  ${computedApis.length > 0 && "md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"}`}
+        className={`mx-20 mb-6 grid grow grid-cols-1  grid-rows-1 items-center gap-5 max-sm:mx-0  ${computedApis.length > 0 && "md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"}`}
       >
         {computedApis.length > 0 ? (
           computedApis
@@ -116,7 +82,7 @@ export const APIs = () => {
         )}
       </main>
       <section
-        className={`mx-20 mb-10 flex flex-row-reverse items-center justify-between ${computedApis.length > 0 || "hidden"}`}
+        className={`mx-20 mb-10 flex flex-row-reverse items-center justify-between gap-5 max-sm:flex-col-reverse ${computedApis.length > 0 || "hidden"}`}
       >
         <div className="flex gap-3">
           <button
