@@ -13,6 +13,14 @@
   .input {
     @apply w-full rounded-md border-2 border-white bg-transparent p-3 text-sm text-neutral-600 focus:outline-none active:text-neutral-400;
   }
+  /* Search APIs */
+  .search_active {
+    @apply cursor-pointer rounded-md bg-white px-3 py-2 text-primary hover:opacity-90;
+  }
+
+  .search_inactive {
+    @apply cursor-pointer rounded-md border border-white px-3 py-2 text-neutral-200 hover:bg-white hover:text-neutral-500;
+  }
 }
 
 @layer utilities {
@@ -27,11 +35,29 @@
     position: relative;
     overflow-x: hidden;
   }
+
   #photo {
     background: linear-gradient(
       180deg,
       rgba(21, 57, 158, 0) 0%,
       rgba(15, 43, 135, 0.5) 100%
+    );
+  }
+
+  /* API CARD */
+  .api-card {
+    background: linear-gradient(
+      180deg,
+      rgba(136, 136, 136, 0) 0%,
+      rgba(136, 136, 136, 0.5) 100%
+    );
+  }
+
+  .api-card:hover {
+    background: linear-gradient(
+      180deg,
+      rgba(34, 33, 52, 0) 0%,
+      rgba(99, 91, 255, 0.5) 100%
     );
   }
 }
