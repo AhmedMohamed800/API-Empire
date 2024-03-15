@@ -35,7 +35,8 @@ class DBStorage:
                                              HBNB_MYSQL_DB),
                                       pool_size=20,
                                       max_overflow=10,
-                                      pool_recycle=3600)
+                                      pool_recycle=3600,
+                                      connect_args={'connect_timeout': 10})
 
     def all(self, cls=None):
         """query on the current database session"""
