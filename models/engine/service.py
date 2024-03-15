@@ -18,8 +18,26 @@ class Service:
     
     def get_all(self):
         """get all services"""
-        return [api.to_dict() for api in self.__storage.all(API)]
+        data = {}
+        data['service'] = [api.to_dict() for api in self.__storage.all(API)]
+        data['categorys'] = list(set([api.category for api in self.__storage.all(API)]))
+        return data
 
     def get_weather(self):
         """ get weather """
         return "sunny"
+    
+    def get(self, service_id):
+        """get service by id"""
+        if service_id is None:
+            raise ValueError("service_id is required")
+        try:
+            service_id = int(service_id)
+        except ValueError:
+            raise ValueError("service_id must be an integer")
+        if not self.__storage.get("API", id=service_id):
+            raise ValueError("service_id does not exist")
+        id = self.__storage.get("API", id=service_id).to_dict()['id']
+        answer = self.__storage.get("Endpoint", api_id=id).to_dict()
+        answer['method'] = answer['method'].value
+        return answer
