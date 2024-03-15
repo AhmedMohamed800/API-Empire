@@ -76,6 +76,8 @@ class DBStorage:
         for key in kwargs.keys():
             if key not in classes[cls].__table__.columns.keys():
                 return None
+        if 'api_id' in kwargs:
+            return self.__session.query(classes[cls]).filter_by(**kwargs).all()
         return self.__session.query(classes[cls]).filter_by(**kwargs).first()
     
     def update(self, cls, **kwargs):
