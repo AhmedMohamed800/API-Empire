@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS endpoint (
     url VARCHAR(255),
     description TEXT,
     method ENUM('GET', 'POST', 'PUT', 'DELETE'),
-    reponse_ex TEXT,
+    response_ex TEXT,
     api_id INT,
     category VARCHAR(255),
     FOREIGN KEY (api_id) REFERENCES API(id)
