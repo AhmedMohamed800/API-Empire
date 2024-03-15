@@ -18,9 +18,3 @@ def get_service(service_id):
         return jsonify(SERVICE.get(service_id)), 200
     except ValueError as e:
         return jsonify({"error": str(e)}), 404
-
-
-@app_service.route('/endpoints', methods=['GET'], strict_slashes=False)
-def get_endpoints():
-    """ Get all endpoints """
-    return jsonify(SERVICE.get_all_endpoints()), 200

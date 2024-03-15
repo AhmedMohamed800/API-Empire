@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """ Flask Application """
 from models import AUTH
-from api.v1.views import app_views, app_service
+from api.v1.views import app_views, app_service, app_apis
 from models.config import Config
 from flask import Flask, jsonify, request, render_template
 from flask_mail import Mail, Message
@@ -19,6 +19,7 @@ app.permanent_session_lifetime = timedelta(days=90)
 cors = CORS(app, resources={r"*": {"origins": "*"}})
 app.register_blueprint(app_views)
 app.register_blueprint(app_service)
+app.register_blueprint(app_apis)
 mail = Mail(app)
 
 
