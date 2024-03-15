@@ -4,6 +4,7 @@ from sqlalchemy.orm import relationship
 from models.base_model import BaseModel, Base
 from models.auth import Auth
 
+
 class User(BaseModel, Base):
     __tablename__ = 'user'
 
@@ -16,9 +17,9 @@ class User(BaseModel, Base):
     reset_token = Column(String(255))
     role = Column(Enum('admin', 'user'), default='user')
     auth_id = Column(Integer, ForeignKey('auth.id'))
-    
+
     auth = relationship("Auth")
-    
+
     def __init__(self, *args, **kwargs):
         """initializes User object"""
         super().__init__(*args, **kwargs)

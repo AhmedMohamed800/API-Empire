@@ -106,6 +106,7 @@ def reset():
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
 
+
 @app_views.route('/get_key', methods=['POST'], strict_slashes=False)
 def get_key():
     """Handles the get_key endpoint.

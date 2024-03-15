@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 """ config module for flask app """
+
+
 class Config(object):
     """ config class """
     MAIL_SERVER = 'smtp.gmail.com'
