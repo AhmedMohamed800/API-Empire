@@ -37,9 +37,11 @@ class Service:
             raise ValueError("service_id must be an integer")
         if not self.__storage.get("API", id=service_id):
             raise ValueError("service_id does not exist")
-        id = self.__storage.get("API", id=service_id).to_dict()['id']
+        service = self.__storage.get("API", id=service_id).to_dict()
         answers = [answer.to_dict() for answer in
-                   self.__storage.get("Endpoint", api_id=id)]
+                   self.__storage.get("Endpoint", api_id=service['id'])]
         for i in range(len(answers)):
             answers[i]['method'] = answers[i]['method'].value
+        answers['title'] = service['title']
+        answers['description'] = service['description']
         return answers
