@@ -32,7 +32,10 @@ class DBStorage:
                                       format(HBNB_MYSQL_USER,
                                              HBNB_MYSQL_PWD,
                                              HBNB_MYSQL_HOST,
-                                             HBNB_MYSQL_DB))
+                                             HBNB_MYSQL_DB),
+                                      pool_size=20,
+                                      max_overflow=10,
+                                      pool_recycle=3600)
 
     def all(self, cls=None):
         """query on the current database session"""
