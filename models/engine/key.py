@@ -3,7 +3,7 @@ from models.engine.engine import DBStorage
 from models.auth import Auth
 from models.engine.auth import Auth as a
 from uuid import uuid4
-import base64
+from bcrypt import hashpw, gensalt
 
 
 class Key:
@@ -30,8 +30,8 @@ class Key:
         else:
             key.max_req = user.auth.max_req
             key.used_req = user.auth.used_req
-        tmp = uuid4()
-        key.hashed_key = base64.b64encode(tmp.bytes).decode('utf-8')
+        tmp = str(uuid4())
+        key.hashed_key = hashpw(tmp.encode(), gensalt())
         user.auth = key
         self.__storage.new(key)
         self.__storage.save()
