@@ -25,8 +25,8 @@ class Apis:
         url = 'http://api.weatherapi.com/v1/'
         weather_functions = ['current', 'forecast',
                              'search', 'history']
-        if not self.check_key(request.get_json().get('session-id'),
-                         request.get_json().get('key')):
+        if not self.check_key(request.headers.get('session-id'),
+                         request.headers.get('X-APIEMPIR-KEY')):
             raise ValueError({"Error": "Unauthorized"})
         if not function:
             raise ValueError({"Error": "No function provided"})
@@ -41,27 +41,27 @@ class Apis:
                 {request.query_string.decode()}'
             response = requests.get(api_url)
         if response.status_code == 200:
-            self.add_req(request.get_json().get('session-id'))
+            self.add_req(request.headers.get('session-id'))
         self.save_response(request, response)
         return response
 
     def currency(self, request):
         """currency exchange"""
         try:
-            if not request.get_json().get('session-id') or\
-                    not request.get_json().get('X-APIEMPIR-KEY'):
+            if not request.headers.get('session-id') or\
+                    not request.headers.get('X-APIEMPIR-KEY'):
                 raise ValueError({"Error": "Unauthorized"})
         except Exception:
             raise ValueError({"Error": "Unauthorized"})
-        if not self.check_key(request.get_json().get('session-id'),
-                              request.get_json().get('X-APIEMPIR-KEY')):
+        if not self.check_key(request.headers.get('session-id'),
+                              request.headers.get('X-APIEMPIR-KEY')):
             raise ValueError({"Error": "Unauthorized"})
         key = 'access_key=m4UqvZZH7GW4UFoW'
         api_url = f'https://api.exchangeratesapi.net/v1/exchange-rates/latest?{key}'
         api_url += f'&base={request.args["base"]}'
         response = requests.get(api_url)
         if response.status_code == 200:
-            self.add_req(request.get_json().get('session-id'))
+            self.add_req(request.headers.get('session-id'))
         self.save_response(request, response)
         return requests.get(api_url)
 
@@ -91,7 +91,7 @@ class Apis:
     def save_response(self, request, response):
         """save response"""
         user = self.__storage.get('User',
-                                  session_id=request.get_json()
+                                  session_id=request.headers
                                   .get('session-id'))
         req = Request(
             method=request.method,
