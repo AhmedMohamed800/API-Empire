@@ -27,11 +27,29 @@
     position: relative;
     overflow-x: hidden;
   }
+
   #photo {
     background: linear-gradient(
       180deg,
       rgba(21, 57, 158, 0) 0%,
       rgba(15, 43, 135, 0.5) 100%
+    );
+  }
+
+  /* API CARD */
+  .api-card {
+    background: linear-gradient(
+      180deg,
+      rgba(136, 136, 136, 0) 0%,
+      rgba(136, 136, 136, 0.5) 100%
+    );
+  }
+
+  .api-card:hover {
+    background: linear-gradient(
+      180deg,
+      rgba(34, 33, 52, 0) 0%,
+      rgba(99, 91, 255, 0.5) 100%
     );
   }
 }

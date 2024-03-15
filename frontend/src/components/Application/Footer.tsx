@@ -4,7 +4,7 @@ const Footer = () => {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative z-10 mx-20 flex  justify-between gap-2 border-t border-white pb-5 pt-4">
+    <footer className="relative z-10 mx-20 flex justify-between  gap-2 border-t border-white pb-5 pt-4 max-sm:mx-5 max-sm:flex-col max-sm:items-center max-sm:text-center">
       <p>© {year} API EMPIRE. All rights reserved.</p>
       <div className="flex gap-1  [&>a]:cursor-pointer">
         <a href="https://web.facebook.com/" target="_blank">

@@ -5,14 +5,18 @@ import { UserContext } from "../Auth/AuthHook.tsx";
 import { useState } from "react";
 import NavDrop from "./NavDrop.tsx";
 import default_photo from "../../assets/application/default_photo.jpeg";
+import { NavLink } from "react-router-dom";
 
 const NavbarApp = () => {
   const [Dropdown, setDropdown] = useState<boolean>(false);
   const user = useContext(UserContext);
 
   return (
-    <nav className="border- relative  flex justify-between  border-b border-neutral-400 px-20 py-2">
-      <img src={logo} alt="logo3" />
+    <nav className=" relative  z-20 flex items-center  justify-between border-b border-neutral-400 px-20 py-2 max-sm:px-5">
+      <NavLink to="/User">
+        <img src={logo} alt="logo3" />
+      </NavLink>
+
       <div
         onClick={() => {
           setDropdown(!Dropdown);
@@ -21,7 +25,7 @@ const NavbarApp = () => {
       >
         <div
           id="photo"
-          className=" bg-cotain h-12 w-12 rounded-full border-2 border-primary "
+          className=" h-12 w-12 rounded-full border-2 border-primary  bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url(${default_photo})` }}
         ></div>
         <div className="text-right">
