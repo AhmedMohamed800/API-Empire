@@ -17,6 +17,7 @@ export const usePaginatedAPIs = (apisPerPage) => {
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [Categories, setCategories] = useState([]);
   const topRef = useRef(null);
 
   const paginate = (pageNumber) => {
@@ -38,8 +39,9 @@ export const usePaginatedAPIs = (apisPerPage) => {
     axios
       .get(APIsURL)
       .then((response) => {
-        setApis(response.data.message);
-        console.log(response.data.message);
+        setApis(response.data.service);
+        setCategories(response.data.categorys);
+        console.log(response.data.categorys);
       })
       .catch((error) => {
         console.log(error);
@@ -97,5 +99,6 @@ export const usePaginatedAPIs = (apisPerPage) => {
     setSelectedCategory,
     selectedCategory,
     searchTerm,
+    Categories,
   };
 };

@@ -19,6 +19,7 @@ export const APIs = () => {
     setSelectedCategory,
     selectedCategory,
     searchTerm,
+    Categories,
   } = usePaginatedAPIs(apisPerPage);
 
   return (
@@ -48,60 +49,25 @@ export const APIs = () => {
       <ul
         className={`mb-6 grid h-24 grid-flow-col place-content-center gap-2 bg-primary ${filterModel && "hidden"}`}
       >
-        <li
-          data-category="weather"
-          className={
-            selectedCategory === "weather" ? "search_active" : "search_inactive"
-          }
-          onClick={(e) => {
-            const target = e.target as HTMLElement;
-            setSelectedCategory(target.dataset.category as string);
-            paginate(1);
-          }}
-        >
-          Weather
-        </li>
-        <li
-          data-category="data"
-          className={
-            selectedCategory === "data" ? "search_active" : "search_inactive"
-          }
-          onClick={(e) => {
-            const target = e.target as HTMLElement;
-            setSelectedCategory(target.dataset.category as string);
-            paginate(1);
-          }}
-        >
-          Data
-        </li>
-        <li
-          data-category="finance"
-          className={
-            selectedCategory === "finance" ? "search_active" : "search_inactive"
-          }
-          onClick={(e) => {
-            const target = e.target as HTMLElement;
-            setSelectedCategory(target.dataset.category as string);
-
-            paginate(1);
-          }}
-        >
-          Finance
-        </li>
-        <li
-          data-category="ip"
-          className={
-            selectedCategory === "ip" ? "search_active" : "search_inactive"
-          }
-          onClick={(e) => {
-            const target = e.target as HTMLElement;
-            setSelectedCategory(target.dataset.category as string);
-            setfilterModel(false);
-            paginate(1);
-          }}
-        >
-          IP
-        </li>
+        {Categories.length > 0 &&
+          Categories.map((cat) => {
+            return (
+              <li
+                key={cat}
+                data-category={cat}
+                className={`
+                  ${selectedCategory === cat ? "search_active" : "search_inactive"} capitalize
+               `}
+                onClick={(e) => {
+                  const target = e.target as HTMLElement;
+                  setSelectedCategory(target.dataset.category as string);
+                  paginate(1);
+                }}
+              >
+                {cat}
+              </li>
+            );
+          })}
       </ul>
       <main
         ref={topRef}
