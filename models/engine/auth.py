@@ -9,10 +9,11 @@ from uuid import uuid4 as uu
 class Auth:
     """ AUTH class """
     __storage = None
+
     def __init__(self):
         """ init """
         self.__storage = DBStorage()
-    
+
     def reload(self):
         """ reload """
         self.__storage.reload()
@@ -36,7 +37,7 @@ class Auth:
         self.__storage.new(User(**kwargs))
         self.__storage.save()
         return True
-    
+
     def get_user(self, **kwargs):
         """ get all users """
         if 'session_id' in kwargs:
@@ -48,23 +49,24 @@ class Auth:
         user = self.__storage.get('User', session_id=session_id)
         if not user:
             raise ValueError("no user found")
-        data ={}
+        data = {}
         data['first_name'] = user.first_name
         data['last_name'] = user.last_name
         data['created_at'] = user.created_at
         data['email'] = user.email
         data['role'] = user.role
         return data
-    
+
     def login(self, email, password):
         """ login """
         user = self.__storage.get('User', email=email)
         if not user:
             raise ValueError("no user found")
-        if not checkpw(password.encode('utf-8'), user.hashed_password.encode()):
+        if not checkpw(password.encode('utf-8'),
+                       user.hashed_password.encode()):
             raise ValueError("invalid password")
         return self.create_session(user)
-    
+
     def logout(self, session_id):
         """ logout """
         if not session_id:
@@ -74,7 +76,7 @@ class Auth:
             raise ValueError("no user found")
         self.__storage.update(user, session_id=None)
         self.__storage.save()
-    
+
     def update_user(self, session_id, **kwargs):
         """ update user """
         if not session_id:
@@ -96,7 +98,7 @@ class Auth:
         user.session_id = str(uu())
         self.__storage.save()
         return user.session_id
-    
+
     def forgot_password(self, email):
         """ forgot password """
         if not email:
@@ -107,7 +109,7 @@ class Auth:
         user.reset_token = str(uu())
         self.__storage.save()
         return user.reset_token
-    
+
     def reset_password(self, reset_token, new_password):
         """ reset password """
         if not reset_token:
@@ -128,7 +130,7 @@ class Auth:
         if not user:
             raise ValueError("no user found")
         return user
-    
+
     def all_users(self):
         """ all users """
         users = [user for user in self.__storage.all(User)]

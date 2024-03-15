@@ -11,11 +11,11 @@ class Key:
     def __init__(self):
         """init"""
         self.__storage = DBStorage()
-    
+
     def reload(self):
         """reload"""
         self.__storage.reload()
-    
+
     def create_key(self, session_id):
         """create key"""
         if not session_id:
