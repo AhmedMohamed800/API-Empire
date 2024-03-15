@@ -42,6 +42,6 @@ class Service:
                    self.__storage.get("Endpoint", api_id=service['id'])]
         for i in range(len(answers)):
             answers[i]['method'] = answers[i]['method'].value
-        answers['title'] = service['title']
-        answers['description'] = service['description']
+        answers.append({"title": service['title'],
+                        "description": service['description']})
         return answers
