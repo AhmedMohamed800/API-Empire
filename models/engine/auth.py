@@ -89,6 +89,8 @@ class Auth:
                 if k == 'password':
                     v = hashpw(v.encode(), gensalt())
                     setattr(user, 'hashed_password', v)
+                elif k == 'email':
+                    continue
                 else:
                     setattr(user, k, v)
         self.__storage.save()
@@ -130,6 +132,17 @@ class Auth:
         if not user:
             raise ValueError("no user found")
         return user
+    
+    def get_reqs(self, session_id):
+        """ get reqs """
+        user = self.__storage.get('User', session_id=session_id)
+        if not user:
+            raise ValueError("no user found")
+        reqs = self.__storage.all('Request', user_id=user.id)
+        for r in range(len(reqs)):
+            if reqs[r].method:
+                reqs[r].method = reqs[r].method.value
+        return reqs
 
     def all_users(self):
         """ all users """
