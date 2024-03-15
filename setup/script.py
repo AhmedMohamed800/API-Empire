@@ -2338,7 +2338,7 @@ title = "exchange rate"
 description = "Get the latest foreign exchange reference rates in JSON format."
 category = "finance"
 image_cover = Image.open("image1.png")
-with open("image1.jpg", "rb") as image_file:
+with open("image1.png", "rb") as image_file:
     image = f'data:image/{image_cover.format};base64,{base64.b64encode(image_file.read()).decode()}'
 # Insert data into the table
 insert_query = "INSERT INTO API (title, description, category, image_cover) VALUES (%s, %s, %s, %s)"

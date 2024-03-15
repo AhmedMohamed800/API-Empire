@@ -3,7 +3,6 @@ from models.engine.engine import DBStorage
 from models.auth import Auth
 from models.engine.auth import Auth as a
 from uuid import uuid4
-from bcrypt import hashpw, gensalt
 
 
 class Key:
@@ -30,12 +29,11 @@ class Key:
         else:
             key.max_req = user.auth.max_req
             key.used_req = user.auth.used_req
-        tmp = str(uuid4())
-        key.hashed_key = hashpw(tmp.encode(), gensalt())
+        key.hashed_key = str(uuid4())
         user.auth = key
         self.__storage.new(key)
         self.__storage.save()
-        return tmp
+        return key.hashed_key
 
     def get_key(self, session_id):
         """get key"""

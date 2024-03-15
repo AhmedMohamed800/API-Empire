@@ -3,7 +3,6 @@
 from models.engine.engine import DBStorage
 from models.requests import Request
 import requests
-from bcrypt import checkpw
 from datetime import datetime
 
 
@@ -53,8 +52,7 @@ class Apis:
                 raise ValueError({"Error": "Unauthorized"})
         except Exception:
             raise ValueError({"Error": "Unauthorized"})
-        if not self.check_key(request.headers.get('session-id'),
-                              request.headers.get('X-APIEMPIR-KEY')):
+        if not self.check_key(request.headers.get('X-APIEMPIR-KEY')):
             raise ValueError({"Error": "Unauthorized"})
         key = 'access_key=m4UqvZZH7GW4UFoW'
         api_url = f'https://api.exchangeratesapi.net/v1/exchange-rates/latest?{key}'
@@ -77,14 +75,12 @@ class Apis:
         else:
             return None
 
-    def check_key(self, session_id, key):
+    def check_key(self, key):
         """check key"""
-        user = self.__storage.get('User', session_id=session_id)
-        if not user.auth:
+        key = self.__storage.get('Auth', hashed_key=key)
+        if not key:
             return False
-        if not checkpw(user.auth.hashed_key.encode(), key.encode()):
-            return False
-        if user.auth.max_req <= user.auth.used_req:
+        if key.max_req <= key.used_req:
             return False
         return True
     

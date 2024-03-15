@@ -55,6 +55,7 @@ class Auth:
         data['created_at'] = user.created_at
         data['email'] = user.email
         data['role'] = user.role
+        data['api_key'] = user.auth.hashed_key if user.auth.hashed_key else None
         return data
 
     def login(self, email, password):
