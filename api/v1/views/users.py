@@ -126,3 +126,14 @@ def get_key():
                         "key": key}), 201
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
+
+
+@app_views.route('/get_reqs', methods=['POST'], strict_slashes=False)
+def get_reqs():
+    """Handles the get_reqs endpoint."""
+    try:
+        return jsonify(AUTH.get_reqs
+                       (request.get_json()
+                        .get('session-id'))), 200
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
