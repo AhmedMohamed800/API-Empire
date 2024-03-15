@@ -41,7 +41,6 @@ export const usePaginatedAPIs = (apisPerPage) => {
       .then((response) => {
         setApis(response.data.service);
         setCategories(response.data.categorys);
-        console.log(response.data.categorys);
       })
       .catch((error) => {
         console.log(error);
