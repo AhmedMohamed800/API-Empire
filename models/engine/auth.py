@@ -139,7 +139,7 @@ class Auth:
         user = self.__storage.get('User', session_id=session_id)
         if not user:
             raise ValueError("no user found")
-        reqs = self.__storage.all('Request', user_id=user.id)
+        reqs = self.__storage.get('Request', user_id=user.id)
         for r in range(len(reqs)):
             if reqs[r].method:
                 reqs[r].method = reqs[r].method.value

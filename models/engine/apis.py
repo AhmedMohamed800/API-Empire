@@ -85,7 +85,7 @@ class Apis:
     def save_response(self, request, response):
         """save response"""
         key = self.__storage.get('Auth',
-                                 hased_key=request.headers.get('X-APIEMPIR-KEY'))
+                                 hashed_key=request.headers.get('X-APIEMPIR-KEY'))
         id = self.__storage.get('User', auth_id=key.id)
         req = Request(
             method=request.method,

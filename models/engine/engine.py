@@ -80,7 +80,8 @@ class DBStorage:
         for key in kwargs.keys():
             if key not in classes[cls].__table__.columns.keys():
                 return None
-        if 'api_id' in kwargs:
+        if 'api_id' in kwargs or\
+            'user_id' in kwargs and cls == 'Request':
             return self.__session.query(classes[cls]).filter_by(**kwargs).all()
         return self.__session.query(classes[cls])\
             .filter_by(**kwargs).first()
