@@ -4,8 +4,9 @@ Contains the class DBStorage
 """
 
 import models
-from models.base_model import BaseModel, Base
+from models.base_model import Base
 from models.api import API
+from models.requests import Request
 from models.auth import Auth
 from models.endpoint import Endpoint
 from models.headers import Headers
@@ -14,7 +15,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
 classes = {"API": API, "Auth": Auth, "Endpoint": Endpoint, "Headers": Headers,
-           "User": User}
+           "User": User, "Request": Request}
 
 
 class DBStorage:
