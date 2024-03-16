@@ -24,8 +24,7 @@ class Apis:
         url = 'http://api.weatherapi.com/v1/'
         weather_functions = ['current', 'forecast',
                              'search', 'history']
-        if not self.check_key(request.headers.get('session-id'),
-                         request.headers.get('X-APIEMPIR-KEY')):
+        if not self.check_key(request.headers.get('X-APIEMPIR-KEY')):
             raise ValueError({"Error": "Unauthorized"})
         if not function:
             raise ValueError({"Error": "No function provided"})
@@ -40,15 +39,14 @@ class Apis:
                 {request.query_string.decode()}'
             response = requests.get(api_url)
         if response.status_code == 200:
-            self.add_req(request.headers.get('session-id'))
+            self.add_req(request.headers.get('X-APIEMPIR-KEY'))
         self.save_response(request, response)
         return response
 
     def currency(self, request):
         """currency exchange"""
         try:
-            if not request.headers.get('session-id') or\
-                    not request.headers.get('X-APIEMPIR-KEY'):
+            if not request.headers.get('X-APIEMPIR-KEY'):
                 raise ValueError({"Error": "Unauthorized"})
         except Exception:
             raise ValueError({"Error": "Unauthorized"})
@@ -59,7 +57,7 @@ class Apis:
         api_url += f'&base={request.args["base"]}'
         response = requests.get(api_url)
         if response.status_code == 200:
-            self.add_req(request.headers.get('session-id'))
+            self.add_req(request.headers.get('X-APIEMPIR-KEY'))
         self.save_response(request, response)
         return requests.get(api_url)
 
@@ -86,23 +84,22 @@ class Apis:
     
     def save_response(self, request, response):
         """save response"""
-        user = self.__storage.get('User',
-                                  session_id=request.headers
-                                  .get('session-id'))
+        key = self.__storage.get('Auth',
+                                 hased_key=request.headers.get('X-APIEMPIR-KEY'))
         req = Request(
             method=request.method,
             status_code=response.status_code,
             path=request.path,
             date=datetime.now(),
             http_version=request.environ['SERVER_PROTOCOL'],
-            user_id=user.id
+            user_id=key.user.id
         )
         self.__storage.new(req)
         self.__storage.save()
     
-    def add_req(self, session_id):
+    def add_req(self, header):
         """add request"""
-        user = self.__storage.get('User', session_id=session_id)
-        user.auth.used_req += 1
+        key = self.__storage.get('Auth', hashed_key=header)
+        key.used_req += 1
         
         self.__storage.save()
