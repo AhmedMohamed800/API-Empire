@@ -2,7 +2,7 @@ import React from "react";
 
 const APIHeader = ({ headerOpen }) => {
   return (
-    <div className={`flex flex-col ${headerOpen && "hidden"}`}>
+    <div className={`flex flex-col ${headerOpen || "hidden"}`}>
       <div>
         <h2 className=" rounded-t-md bg-black p-4 font-semibold">Parameters</h2>
         <section className=" bg-primary p-4 [&>div]:flex [&>div]:gap-20 ">

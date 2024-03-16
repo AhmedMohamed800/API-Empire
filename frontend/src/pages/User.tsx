@@ -1,23 +1,233 @@
 import React from "react";
-import { useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { useReducer, useContext, useRef, useState, useEffect } from "react";
+import { UserContext } from "../components/Auth/AuthHook.tsx";
+const edit = require("../assets/user/edit.svg") as string;
+
+type State = {
+  first_name: string;
+  email: string;
+  last_name: string;
+  key: string;
+};
+
+type Action =
+  | { type: "SET_FIRST_NAME"; payload: string }
+  | { type: "SET_LAST_NAME"; payload: string }
+  | { type: "SET_EMAIL"; payload: string }
+  | { type: "SET_KEY"; payload: string };
+
+interface key {
+  key: string;
+  message: string;
+}
 
 const User = () => {
-  useEffect(() => {
+  const { user, setUser } = useContext<any>(UserContext);
+  const [key, setKey] = useState<key>({ key: "", message: "" });
+  const [saved, setSaved] = useState(false);
+  const firstNameRef = useRef<HTMLInputElement>(null);
+  const lastNameRef = useRef<HTMLInputElement>(null);
+
+  const initialState: State = {
+    first_name: user.first_name,
+    last_name: user.last_name,
+    email: user.email,
+    key: user.api_key,
+  };
+  function reducer(state: State, action: Action): State {
+    switch (action.type) {
+      case "SET_FIRST_NAME":
+        return { ...state, first_name: action.payload };
+      case "SET_LAST_NAME":
+        return { ...state, last_name: action.payload };
+      case "SET_EMAIL":
+        return { ...state, email: action.payload };
+      case "SET_KEY":
+        return { ...state, key: action.payload };
+      default:
+        return state;
+    }
+  }
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  function getNewKey() {
     const session_id = Cookies.get("session");
     const KEYURL = `${process.env.REACT_APP_API_URL}/api/v1/get_key`;
     axios
-      .post(KEYURL, { "session-id": JSON.parse(session_id) })
+      .post(KEYURL, {}, { headers: { "session-id": JSON.parse(session_id) } })
       .then((response) => {
-        console.log(response.data);
+        const { key, message } = response.data;
+        setKey({ key, message });
+        setTimeout(() => {
+          setKey((ele) => {
+            return { ...ele, message: "" };
+          });
+        }, 3000);
       })
       .catch((error) => {
         console.log(error);
       });
-  });
+  }
 
-  return <div>User</div>;
+  function saveChanges(e) {
+    e.preventDefault();
+    const session_id = Cookies.get("session");
+    const USERURL = `${process.env.REACT_APP_API_URL}/api/v1/user`;
+
+    axios
+      .put(
+        USERURL,
+        {
+          first_name: state.first_name ? state.first_name : user.first_name,
+          last_name: state.last_name ? state.last_name : user.last_name,
+        },
+        { headers: { "session-id": JSON.parse(session_id) } },
+      )
+      .then(() => {
+        setUser({
+          ...user,
+          first_name: state.first_name ? state.first_name : user.first_name,
+          last_name: state.last_name ? state.last_name : user.last_name,
+        });
+        setSaved(true);
+        setTimeout(() => {
+          setSaved(false);
+        }, 1000);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  useEffect(() => {
+    console.log(user.api_key);
+    setKey((state) => {
+      return { ...state, key: user.api_key };
+    });
+  }, []);
+
+  return (
+    <form
+      onSubmit={saveChanges}
+      className="z-10 mx-20 flex grow  flex-col   justify-center gap-6 max-sm:mx-5"
+    >
+      <div className="flex gap-6">
+        <label htmlFor="first_name" className="label relative grow">
+          <span className="label_span">FIRST NAME</span>
+          <input
+            ref={firstNameRef}
+            type="text"
+            placeholder={user.first_name}
+            id="first_name"
+            name="first_name"
+            value={state.first_name}
+            autoComplete="none"
+            className="input"
+            disabled
+            onChange={(e) => {
+              dispatch({ type: "SET_FIRST_NAME", payload: e.target.value });
+            }}
+          />
+          <img
+            src={edit}
+            alt="edit"
+            width="24px"
+            height="24px"
+            className="absolute bottom-3 right-3 cursor-pointer hover:opacity-80"
+            onClick={() => {
+              if (firstNameRef.current) {
+                firstNameRef.current.disabled = false;
+              }
+            }}
+          />
+        </label>
+        <label htmlFor="last_name" className="label relative grow">
+          <span className="label_span">LAST NAME</span>
+          <input
+            type="text"
+            ref={lastNameRef}
+            placeholder={user.last_name}
+            id="last_name"
+            name="last_name"
+            value={state.last_name}
+            autoComplete="none"
+            className="input"
+            disabled
+            onChange={(e) => {
+              dispatch({ type: "SET_LAST_NAME", payload: e.target.value });
+            }}
+          />
+          <img
+            src={edit}
+            alt="edit"
+            width="24px"
+            height="24px"
+            className="absolute bottom-3 right-3 cursor-pointer hover:opacity-80"
+            onClick={() => {
+              if (lastNameRef.current) {
+                lastNameRef.current.disabled = false;
+              }
+            }}
+          />
+        </label>
+      </div>
+      <label htmlFor="email" className="label">
+        <span className="label_span">EMAIL</span>
+        <input
+          type="email"
+          placeholder={user.email}
+          id="email"
+          name="email"
+          value={state.email}
+          readOnly
+          autoComplete="none"
+          className="input"
+          onChange={(e) => {
+            dispatch({ type: "SET_EMAIL", payload: e.target.value });
+          }}
+        />
+      </label>
+      <div className="flex items-end gap-6">
+        <label htmlFor="key" className="label grow">
+          <span className="label_span">KEY</span>
+          <input
+            type="text"
+            id="key"
+            name="key"
+            value={key.key}
+            required
+            autoComplete="none"
+            className="input"
+            readOnly
+          />
+        </label>
+
+        <button
+          type="button"
+          className="mb-[1px] rounded-md bg-primary p-3 text-white hover:opacity-80"
+          onClick={getNewKey}
+        >
+          GET NEW KEY
+        </button>
+      </div>
+      <p
+        className={`relative bottom-3 text-green-500 ${key.message || "hidden"}`}
+      >
+        {key.message}
+      </p>
+
+      <button className="mt-5 rounded-md  bg-primary p-3 text-white hover:opacity-80">
+        Save Changes
+      </button>
+      <p
+        className={`relative bottom-3 text-center text-green-500 ${saved || "hidden"}`}
+      >
+        Your data has been updated
+      </p>
+    </form>
+  );
 };
 
 export default User;
