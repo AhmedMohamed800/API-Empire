@@ -7,7 +7,6 @@ import requests
 
 
 THEURL = 'https://apiempire.site/api'
-url = 'http://api.weatherapi.com/v1/forecast.json?key=807fc75c10194ef1a6c223212241403&q=London&days=1&aqi=yes&alerts=yes'
 
 
 # Establish connection to MySQL
@@ -36,49 +35,8 @@ method = 'GET'
 description = 'Get the current weather for a city.\
     takes from query parameter city like ?q=city\
         takes aqi parameter to get air quality index like ?q=city&aqi=yes'
-response_ex = """{
-body:{
-    "location": {
-        "name": "Alexandria",
-        "region": "Al Iskandariyah",
-        "country": "Egypt",
-        "lat": 31.2,
-        "lon": 29.92,
-        "tz_id": "Africa/Cairo",
-        "localtime_epoch": 1710456336,
-        "localtime": "2024-03-15 0:45"
-    },
-    "current": {
-        "last_updated_epoch": 1710456300,
-        "last_updated": "2024-03-15 00:45",
-        "temp_c": 13.0,
-        "temp_f": 55.4,
-        "is_day": 0,
-        "condition": {
-            "text": "Clear",
-            "icon": "//cdn.weatherapi.com/weather/64x64/night/113.png",
-            "code": 1000
-        },
-        "wind_mph": 3.8,
-        "wind_kph": 6.1,
-        "wind_degree": 150,
-        "wind_dir": "SSE",
-        "pressure_mb": 1017.0,
-        "pressure_in": 30.03,
-        "precip_mm": 0.0,
-        "precip_in": 0.0,
-        "humidity": 77,
-        "cloud": 0,
-        "feelslike_c": 12.2,
-        "feelslike_f": 53.9,
-        "vis_km": 10.0,
-        "vis_miles": 6.0,
-        "uv": 1.0,
-        "gust_mph": 10.4,
-        "gust_kph": 16.8
-    }
-}
-"""
+url = 'http://api.weatherapi.com/v1/current.json?key=807fc75c10194ef1a6c223212241403&q=London&aqi=yes'
+response_ex = f'''{requests.get(url).json()}'''
 category = "weather"
 cursor.execute("SELECT id FROM API WHERE title = 'Weather API'")
 api_id = cursor.fetchone()[0]
@@ -104,6 +62,56 @@ description = 'Get the 5 day weather forecast for a city.\
                         takes the date parameter to get the forecast for a specific date like ?q=city&dt=2024-03-15\
                             takes the timezone parameter to get the forecast in the timezone like ?q=city&tz=Europe/London\
                                 takes the alerts parameter to get the weather alerts like ?q=city&alerts=yes'
+url = 'http://api.weatherapi.com/v1/forecast.json?key=807fc75c10194ef1a6c223212241403&q=London&days=1&aqi=yes&alerts=yes'
+response_ex = f'''{requests.get(url).json()}'''
+category = "weather"
+cursor.execute(
+    "INSERT INTO endpoint (title, url, method, description, response_ex, category, api_id) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+    (endpoint_title,
+     endpoint_url,
+     method,
+     description,
+     response_ex,
+     category,
+     api_id))
+endpoint_title = 'Auto'
+endpoint_url = f'{THEURL}/weather/search'
+method = 'GET'
+description = """This endpoint will return the weather data for the next 24 hours for the location of the user."""
+url = 'http://api.weatherapi.com/v1/search.json?key=807fc75c10194ef1a6c223212241403&q=London'
+response_ex = f"""{requests.get(url).json()}"""
+category = "weather"
+cursor.execute(
+    "INSERT INTO endpoint (title, url, method, description, response_ex, category, api_id) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+    (endpoint_title,
+     endpoint_url,
+     method,
+     description,
+     response_ex,
+     category,
+     api_id))
+endpoint_title = 'History'
+endpoint_url = f'{THEURL}/weather/history?q=city&dt=(Year-Month-Day)'
+method = 'GET'
+description = """This endpoint will return the weather data for the passed date for the location of the user."""
+url = 'http://api.weatherapi.com/v1/history.json?key=807fc75c10194ef1a6c223212241403&q=London&dt=2010-01-01'
+response_ex = f'''{requests.get(url).json()}'''
+category = "weather"
+cursor.execute(
+    "INSERT INTO endpoint (title, url, method, description, response_ex, category, api_id) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+    (endpoint_title,
+     endpoint_url,
+     method,
+     description,
+     response_ex,
+     category,
+     api_id))
+endpoint_title = 'future'
+endpoint_url = f'{THEURL}/weather/future?q=alexandria&dt=2024-04-15'
+method = 'GET'
+description = "This endpoint will return the weather data for the passed date for the location of the user."
+category = "weather"
+url = "http://api.weatherapi.com/v1/future.json?key=807fc75c10194ef1a6c223212241403&q=London&dt=2024-04-15"
 response_ex = f'''{requests.get(url).json()}'''
 cursor.execute(
     "INSERT INTO endpoint (title, url, method, description, response_ex, category, api_id) VALUES (%s, %s, %s, %s, %s, %s, %s)",
