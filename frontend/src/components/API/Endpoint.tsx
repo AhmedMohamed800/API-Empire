@@ -45,7 +45,20 @@ const Endpoint: React.FC<EndpointProps> = ({
         >
           {method}
         </p>
-        <p className="grow font-semibold">{restURL.pathname}</p>
+        <p className="grow font-semibold">
+          {restURL.pathname}
+          <span
+            className="overflow-hidden  text-sm text-neutral-300"
+            style={{
+              display: "-webkit-box",
+              WebkitLineClamp: 1,
+              WebkitBoxOrient: "vertical",
+              maxWidth: "200ch",
+            }}
+          >
+            {description}
+          </span>
+        </p>
         <svg
           width="20"
           height="22"

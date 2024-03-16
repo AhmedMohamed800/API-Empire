@@ -52,6 +52,12 @@ const API = () => {
             endpoints[endpoints.length - 1]["description"]}
         </p>
       </header>
+      <div className="rounded-md bg-post p-4 text-center text-black">
+        <p>Please ensure to include the following in your headers:</p>
+        <p>
+          <code>X-APIEMPIR-KEY: [Your API Key]</code>
+        </p>
+      </div>
       <main className=" flex flex-col gap-4 border-t-2 border-white pt-6">
         {endpoints.length > 0 &&
           endpoints.map((ele, i) => {

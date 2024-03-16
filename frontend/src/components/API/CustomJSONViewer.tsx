@@ -17,7 +17,7 @@ const CustomJSONViewer = ({ data }) => {
             )}
           </div>
         ))}
-        <span>{"{"}</span>
+        <span>{"}"}</span>
       </div>
     );
   };

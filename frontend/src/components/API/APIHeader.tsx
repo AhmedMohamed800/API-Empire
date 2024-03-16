@@ -38,13 +38,9 @@ const APIHeader = ({ headerOpen, queries, response }) => {
               {<CustomJSONViewer data={response} />}
             </code>
           </div>
-          <div className="  pt-2">
-            <p className="w-[30px] ">400</p>
-            <p className="text-red-500">Invalid Request</p>
-          </div>
           <div className="pt-2">
-            <p className="w-[30px] ">404</p>
-            <p className="text-red-500">Not Autherized</p>
+            <p className="w-[30px] ">400</p>
+            <p className="text-red-500">Unauthorized</p>
           </div>
         </section>
       </div>
