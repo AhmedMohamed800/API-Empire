@@ -35,6 +35,8 @@
     "webpack-dev-server": "^4.15.1"
   },
   "dependencies": {
+    "@paypal/paypal-js": "^8.0.2",
+    "@paypal/react-paypal-js": "^8.1.4",
     "axios": "^1.6.7",
     "js-cookie": "^3.0.5",
     "react": "^18.2.0",

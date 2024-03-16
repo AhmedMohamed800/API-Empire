@@ -23,24 +23,11 @@ const Traffic = () => {
       },
     );
   }
-
+  const [traffic, setTrafic] = useState([]);
   const [page, setPage] = useState(1);
-  const apisPerPage = 9;
-  const data = [
-    {
-      ip: "123.45.67.89",
-      date: "[09/Mar/2024:15:30:45 +0000]",
-      method: "GET",
-      url: "https://www.google.come",
-      version: "HTTPS/1.1",
-      status: "200",
-    },
-  ];
-  for (let i = 0; i < 100; i++) {
-    data.push(data[0]);
-  }
-  const header = Object.keys(data[0]);
+  const apisPerPage = 7;
 
+  const header = ["ip", "date", "method", "url", "status"];
   useEffect(() => {
     const url = new URL(window.location.href);
     const page = url.searchParams.get("page");
@@ -54,10 +41,15 @@ const Traffic = () => {
     const session = Cookies.get("session");
     const TRAFFICURL = `${process.env.REACT_APP_API_URL}/api/v1/get_reqs`;
 
-    const response = axios
+    axios
       .get(TRAFFICURL, { headers: { "session-id": JSON.parse(session) } })
       .then((res) => {
-        console.log(res.data);
+        const updatedData = res.data.map((item) => ({
+          ...item,
+          url: item.path,
+          status: item.status_code,
+        }));
+        setTrafic(updatedData);
       })
       .catch((error) => {
         console.log(error);
@@ -67,11 +59,11 @@ const Traffic = () => {
   const computedTraffic = useMemo(() => {
     const startIndex = (page - 1) * apisPerPage;
     const endIndex = startIndex + apisPerPage;
-    return data.slice(startIndex, endIndex);
-  }, []);
+    return traffic.slice(startIndex, endIndex);
+  }, [traffic, page, apisPerPage]);
 
   return (
-    <section className="z-10 mx-20 flex grow  flex-col   justify-center gap-6 max-sm:mx-5">
+    <section className="z-10 mx-20 flex grow  flex-col   justify-center gap-6 max-lg:my-10 max-sm:mx-5">
       <Table
         header={header}
         content={computedTraffic}
@@ -100,7 +92,7 @@ const Traffic = () => {
           <button
             className="rounded-full border border-white p-2"
             onClick={() => {
-              if (page < Math.ceil(data.length / 20)) {
+              if (page < Math.ceil(traffic.length / apisPerPage)) {
                 paginate(page + 1);
               }
             }}
@@ -109,24 +101,26 @@ const Traffic = () => {
           </button>
         </div>
         <div className=" flex gap-2">
-          {[...Array(Math.ceil(data.length / 20)).keys()].map((_, index) => {
-            const uuid = generateUUID();
-            if (index === page - 1) {
+          {[...Array(Math.ceil(traffic.length / apisPerPage)).keys()].map(
+            (_, index) => {
+              const uuid = generateUUID();
+              if (index === page - 1) {
+                return (
+                  <span
+                    key={uuid}
+                    className="h-2 w-2 rounded-full bg-primary"
+                  ></span>
+                );
+              }
+
               return (
                 <span
                   key={uuid}
-                  className="h-2 w-2 rounded-full bg-primary"
+                  className=" h-2 w-2 rounded-full bg-neutral-500"
                 ></span>
               );
-            }
-
-            return (
-              <span
-                key={uuid}
-                className=" h-2 w-2 rounded-full bg-neutral-500"
-              ></span>
-            );
-          })}
+            },
+          )}
         </div>
       </section>
     </section>
