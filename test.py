@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
+from faker import Faker
 import requests
-url = 'http://api.weatherapi.com/v1/forecast.json?key=807fc75c10194ef1a6c223212241403&q=London&days=1&aqi=yes&alerts=yes'
-response_ex = f'''{requests.get(url).json()}'''
-print(type(eval(response_ex)))
+fake = Faker()
+
+url = 'http://localhost:5000/api/weather/current?q=London'
+header = {'X-APIEMPIR-KEY': '14ac4bd5-5315-4823-8ea6-b5bb70d91b57'}
+
+print(requests.get(url, headers=header).json())

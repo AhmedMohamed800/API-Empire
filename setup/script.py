@@ -4,6 +4,8 @@ import mysql.connector
 from PIL import Image
 import base64
 import requests
+from faker import Faker
+
 
 
 THEURL = 'https://apiempire.site/api'
@@ -30,7 +32,7 @@ with open("image.jpg", "rb") as image_file:
 insert_query = "INSERT INTO API (title, description, category, image_cover) VALUES (%s, %s, %s, %s)"
 cursor.execute(insert_query, (title, description, category, image))
 endpoint_title = 'current'
-endpoint_url = f'{THEURL}/weather/current?city=city&aqi=(yes,no)'
+endpoint_url = f'{THEURL}/weather/current?q=city&aqi=(yes,no)'
 method = 'GET'
 description = 'Get the current weather for a city.\
     takes from query parameter city like ?q=city\
