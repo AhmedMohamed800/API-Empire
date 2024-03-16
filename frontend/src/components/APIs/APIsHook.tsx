@@ -32,6 +32,8 @@ export const usePaginatedAPIs = (apisPerPage) => {
     const page = url.searchParams.get("page");
     if (page) {
       setPage(parseInt(page));
+    } else {
+      paginate(1);
     }
     document.title = "APIs";
     const APIsURL = `${process.env.REACT_APP_API_URL}/api/v1/service/all`;

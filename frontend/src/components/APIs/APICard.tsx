@@ -24,7 +24,7 @@ const APICard: React.FC<APICardProps> = ({
   return (
     <div
       onClick={handleConnect}
-      className="api-card group relative flex cursor-pointer flex-col  gap-2 overflow-hidden rounded-md border-2 border-neutral-400 p-3 hover:border-primary "
+      className="api-card group relative flex h-[320px] cursor-pointer  flex-col gap-2 overflow-hidden rounded-md border-2 border-neutral-400 p-3 hover:border-primary "
     >
       <div
         style={{
@@ -38,10 +38,20 @@ const APICard: React.FC<APICardProps> = ({
           (e.currentTarget.style.backgroundImage = `linear-gradient(180deg, rgba(136, 136, 136, 0.00) 0%, rgba(136, 136, 136, 0.50) 93.5%), url(${image_cover})`)
         }
       ></div>
-      <h4 className=" border-b-2 border-white pb-2 text-center  font-semibold">
+      <h4 className=" border-b-2 border-white pb-2 text-center  font-semibold capitalize">
         {title}
       </h4>
-      <p className=" text-sm text-neutral-300">{description}</p>
+      <p
+        className=" overflow-hidden  text-sm text-neutral-300"
+        style={{
+          display: "-webkit-box",
+          WebkitLineClamp: 2,
+          WebkitBoxOrient: "vertical",
+          maxWidth: "200ch",
+        }}
+      >
+        {description}
+      </p>
       <div className="flex items-center justify-between gap-2">
         <button className="  rounded-md  bg-neutral-400 px-3 py-2 text-white group-hover:bg-primary">
           Connect

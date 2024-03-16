@@ -49,6 +49,20 @@ export const APIs = () => {
       <ul
         className={`mb-6 flex min-h-24 items-center justify-center gap-2 bg-primary p-3 max-sm:flex-col ${filterModel && "hidden"}`}
       >
+        <li
+          data-category=""
+          className={`
+                  ${selectedCategory === "" ? "search_active" : "search_inactive"} capitalize
+               `}
+          onClick={(e) => {
+            const target = e.target as HTMLElement;
+            setSelectedCategory(target.dataset.category as string);
+            paginate(1);
+          }}
+        >
+          All
+        </li>
+
         {Categories.length > 0 &&
           Categories.map((cat) => {
             return (
@@ -71,7 +85,7 @@ export const APIs = () => {
       </ul>
       <main
         ref={topRef}
-        className={`mx-20 mb-6 grid grow grid-cols-1  grid-rows-1 items-center gap-5 max-sm:mx-0  ${computedApis.length > 0 && "md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"}`}
+        className={`mx-20 mb-6 grid grow grid-cols-1  grid-rows-1 items-center gap-5 max-sm:mx-0   ${computedApis.length > 0 && "md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"}`}
       >
         {computedApis.length > 0 ? (
           computedApis
