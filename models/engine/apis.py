@@ -86,13 +86,14 @@ class Apis:
         """save response"""
         key = self.__storage.get('Auth',
                                  hased_key=request.headers.get('X-APIEMPIR-KEY'))
+        id = self.__storage.get('User', auth_id=key.id)
         req = Request(
             method=request.method,
             status_code=response.status_code,
             path=request.path,
             date=datetime.now(),
             http_version=request.environ['SERVER_PROTOCOL'],
-            user_id=key.user.id
+            user_id=id
         )
         self.__storage.new(req)
         self.__storage.save()

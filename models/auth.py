@@ -13,7 +13,6 @@ class Auth(BaseModel, Base):
     max_req = Column(Integer, nullable=False)
     used_req = Column(Integer, nullable=False)
 
-    user = relationship("User")
 
     def __init__(self, *args, **kwargs):
         """initializes Auth object"""
