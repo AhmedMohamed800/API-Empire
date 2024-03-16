@@ -87,7 +87,6 @@ class Apis:
         key = self.__storage.get('Auth',
                                  hashed_key=request.headers.get('X-APIEMPIR-KEY'))
         user = self.__storage.get('User', auth_id=key.id)
-        print(user.id)
         req = Request(
             method=request.method,
             status_code=response.status_code,
@@ -103,5 +102,4 @@ class Apis:
         """add request"""
         key = self.__storage.get('Auth', hashed_key=header)
         key.used_req += 1
-        
         self.__storage.save()

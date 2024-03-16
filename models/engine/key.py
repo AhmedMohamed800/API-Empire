@@ -29,6 +29,7 @@ class Key:
         else:
             key.max_req = user.auth.max_req
             key.used_req = user.auth.used_req
+            self.__storage.delete(user.auth)
         key.hashed_key = str(uuid4())
         user.auth = key
         self.__storage.new(key)
