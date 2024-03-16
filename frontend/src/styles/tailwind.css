@@ -26,6 +26,12 @@
   .table_api {
     @apply w-full;
   }
+
+  /* table traffic - billing */
+  .tr,
+  .td {
+    @apply border-2 border-primary p-4 text-center;
+  }
 }
 
 @layer utilities {

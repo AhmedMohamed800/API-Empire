@@ -11,6 +11,10 @@ import Traffic from "./pages/Traffic.tsx";
 import API from "./pages/API.tsx";
 import ResetPassowrd from "./pages/ResetPassowrd.tsx";
 import { Route, Routes } from "react-router-dom";
+import Home from "./layouts/Home.tsx";
+import LandingPage from "./pages/LandingPage.tsx";
+import Aboutus from "./pages/Aboutus.tsx";
+import Pricing from "./pages/Pricing.tsx";
 
 const App = () => {
   return (
@@ -27,6 +31,12 @@ const App = () => {
         <Route path="/user" element={<User />} />
         <Route path="/billing" element={<Billing />} />
         <Route path="/traffic" element={<Traffic />} />
+      </Route>
+      <Route element={<Home />}>
+        <Route path="/" index element={<LandingPage />} />
+        <Route path="/aboutus" index element={<Aboutus />} />
+        <Route path="/pricing" index element={<Pricing />} />
+        <Route path="/apis/hub" index element={<Pricing />} />
       </Route>
     </Routes>
   );
