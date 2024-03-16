@@ -55,7 +55,9 @@ class Auth:
         data['created_at'] = user.created_at
         data['email'] = user.email
         data['role'] = user.role
-        data['api_key'] = user.auth.hashed_key if user.auth.hashed_key else None
+        if user.auth:
+            if user.auth.hashed_key:
+                data['api_key'] = user.auth.hashed_key
         return data
 
     def login(self, email, password):
@@ -143,6 +145,7 @@ class Auth:
         for r in range(len(reqs)):
             if reqs[r].method:
                 reqs[r].method = reqs[r].method.value
+            reqs[r] = reqs[r].to_dict()
         return reqs
 
     def all_users(self):
