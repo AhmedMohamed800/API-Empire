@@ -137,3 +137,14 @@ def get_reqs():
                         .get('session-id'))), 200
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
+
+
+@app_views.route('/reqs', methods=['GET'], strict_slashes=False)
+def reqs():
+    """Handles the reqs endpoint."""
+    try:
+        return jsonify(AUTH.reqs
+                       (request.headers
+                        .get('session-id'))), 200
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
