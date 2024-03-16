@@ -21,6 +21,11 @@
   .search_inactive {
     @apply cursor-pointer rounded-md border border-white px-3 py-2  text-neutral-200 hover:bg-white hover:text-neutral-500;
   }
+
+  /* table api */
+  .table_api {
+    @apply w-full;
+  }
 }
 
 @layer utilities {

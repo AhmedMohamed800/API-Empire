@@ -21,8 +21,9 @@ const Endpoint: React.FC<EndpointProps> = ({
   category,
 }) => {
   const restURL = new URL(url);
+  const queries = restURL.searchParams;
   const [headerOpen, setHeaderOpen] = useState(false);
-
+  const responseWithQuotation = response_ex.replace(/'/gi, '"');
   let backgroundColor;
   if (method === "GET") {
     backgroundColor =
@@ -63,7 +64,11 @@ const Endpoint: React.FC<EndpointProps> = ({
           </g>
         </svg>
       </div>
-      <APIHeader headerOpen={headerOpen} />
+      <APIHeader
+        headerOpen={headerOpen}
+        queries={queries}
+        response={JSON.parse(responseWithQuotation)}
+      />
     </>
   );
 };

@@ -56,6 +56,7 @@ const API = () => {
         {endpoints.length > 0 &&
           endpoints.map((ele, i) => {
             if (i === endpoints.length - 1) return null;
+
             return (
               <Endpoint
                 key={ele.url}

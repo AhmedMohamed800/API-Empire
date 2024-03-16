@@ -102,11 +102,10 @@ const User = () => {
   }
 
   useEffect(() => {
-    console.log(user.api_key);
     setKey((state) => {
       return { ...state, key: user.api_key };
     });
-  }, []);
+  }, [user.api_key]);
 
   return (
     <form
@@ -190,19 +189,10 @@ const User = () => {
         />
       </label>
       <div className="flex items-end gap-6">
-        <label htmlFor="key" className="label grow">
+        <div className="label grow">
           <span className="label_span">KEY</span>
-          <input
-            type="text"
-            id="key"
-            name="key"
-            value={key.key}
-            required
-            autoComplete="none"
-            className="input"
-            readOnly
-          />
-        </label>
+          <p className="input">{key.key ? key.key : "***************"}</p>
+        </div>
 
         <button
           type="button"
