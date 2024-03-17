@@ -4,8 +4,9 @@ Contains the class DBStorage
 """
 
 import models
-from models.base_model import BaseModel, Base
+from models.base_model import Base
 from models.api import API
+from models.requests import Request
 from models.auth import Auth
 from models.endpoint import Endpoint
 from models.headers import Headers
@@ -14,7 +15,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
 classes = {"API": API, "Auth": Auth, "Endpoint": Endpoint, "Headers": Headers,
-           "User": User}
+           "User": User, "Request": Request}
 
 
 class DBStorage:
@@ -32,7 +33,11 @@ class DBStorage:
                                       format(HBNB_MYSQL_USER,
                                              HBNB_MYSQL_PWD,
                                              HBNB_MYSQL_HOST,
-                                             HBNB_MYSQL_DB))
+                                             HBNB_MYSQL_DB),
+                                      pool_size=20,
+                                      max_overflow=10,
+                                      pool_recycle=3600,
+                                      connect_args={'connect_timeout': 10})
 
     def all(self, cls=None):
         """query on the current database session"""
@@ -40,10 +45,7 @@ class DBStorage:
         for clss in classes:
             if cls is None or cls is classes[clss] or cls is clss:
                 objs = self.__session.query(classes[clss]).all()
-                for obj in objs:
-                    key = obj.__class__.__name__ + '.' + str(obj.id)
-                    new_dict[key] = obj
-        return (new_dict)
+                return objs
 
     def new(self, obj):
         """add the object to the current database session"""
@@ -79,11 +81,16 @@ class DBStorage:
         for key in kwargs.keys():
             if key not in classes[cls].__table__.columns.keys():
                 return None
-        return self.__session.query(classes[cls]).filter_by(**kwargs).first()
-    
+        if 'api_id' in kwargs or\
+            'user_id' in kwargs and cls == 'Request':
+            return self.__session.query(classes[cls]).filter_by(**kwargs).all()
+        return self.__session.query(classes[cls])\
+            .filter_by(**kwargs).first()
+
     def update(self, cls, **kwargs):
         """ update the object """
-        self.__session.query(cls.__class__).filter_by(email=cls.email).update(kwargs)
+        self.__session.query(cls.__class__)\
+            .filter_by(email=cls.email).update(kwargs)
 
     def count(self, cls=None):
         """

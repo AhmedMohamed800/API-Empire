@@ -2,6 +2,7 @@
 """ holds class Auth"""
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, Integer
+from sqlalchemy.orm import relationship
 
 
 class Auth(BaseModel, Base):
@@ -11,6 +12,7 @@ class Auth(BaseModel, Base):
     hashed_key = Column(String(128), nullable=False)
     max_req = Column(Integer, nullable=False)
     used_req = Column(Integer, nullable=False)
+
 
     def __init__(self, *args, **kwargs):
         """initializes Auth object"""

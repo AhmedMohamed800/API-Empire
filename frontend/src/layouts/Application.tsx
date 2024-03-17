@@ -13,6 +13,12 @@ interface User {
   email: string;
   first_name: string;
   last_name: string;
+  api_key: string;
+}
+
+interface UserContextType {
+  user: User;
+  setUser: React.Dispatch<React.SetStateAction<User>>;
 }
 
 const Application = () => {
@@ -21,6 +27,7 @@ const Application = () => {
     email: "",
     first_name: "",
     last_name: "",
+    api_key: "",
   });
 
   useEffect(() => {
@@ -34,19 +41,21 @@ const Application = () => {
           },
         })
         .then((response) => {
-          const { email, first_name, last_name } = response.data;
-          setUser({ email, first_name, last_name });
+          const { email, first_name, last_name, api_key } = response.data;
+          setUser({ email, first_name, last_name, api_key });
         })
         .catch((error) => {
           console.error(error);
           Cookies.remove("session");
           navigate("/auth/sign_in");
         });
+    } else {
+      navigate("/auth/sign_in");
     }
   }, []);
 
   return (
-    <UserContext.Provider value={user}>
+    <UserContext.Provider value={{ user, setUser } as UserContextType}>
       <section className=" relative flex max-h-full min-h-screen flex-col justify-between  text-white [&>*:nth-child(2)]:flex-grow">
         <NavbarApp />
         <Outlet />

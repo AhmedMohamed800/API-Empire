@@ -132,6 +132,7 @@ export function useFormForget() {
   const [form, setForm] = useState<FormForget>({
     email: "",
   });
+  const [error, setError] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -149,6 +150,7 @@ export function useFormForget() {
       console.log(response);
     } catch (error) {
       console.log(error);
+      setError(true);
     }
   }
 
@@ -158,7 +160,7 @@ export function useFormForget() {
     setForm({ ...form, [id]: value });
   }
 
-  return { form, handleForm, submitForm };
+  return { form, handleForm, submitForm, error };
 }
 
 interface FormReset {

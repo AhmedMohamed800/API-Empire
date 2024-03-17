@@ -22,3 +22,6 @@ sudo systemctl start mysql
 # setup the database.
 cat api.sql | sudo mysql
 
+# insert data in the db
+./script.py
+

@@ -13,6 +13,38 @@
   .input {
     @apply w-full rounded-md border-2 border-white bg-transparent p-3 text-sm text-neutral-600 focus:outline-none active:text-neutral-400;
   }
+  /* Search APIs */
+  .search_active {
+    @apply cursor-pointer rounded-md border border-transparent bg-white px-3 py-2  text-primary hover:opacity-90;
+  }
+
+  .search_inactive {
+    @apply cursor-pointer rounded-md border border-white px-3 py-2  text-neutral-200 hover:bg-white hover:text-neutral-500;
+  }
+
+  /* table api */
+  .table_api {
+    @apply w-full;
+  }
+
+  /* table traffic - billing */
+  .tr,
+  .td {
+    @apply border-2 border-primary p-4 text-center;
+  }
+
+  /* Navbar Home */
+  .activeHome {
+    @apply relative flex flex-col-reverse items-center justify-center text-primary;
+  }
+
+  .activeHome::before {
+    @apply h-2 w-2 rounded-full bg-primary shadow-sm   content-[''];
+  }
+
+  .activeHome::after {
+    @apply absolute -bottom-2 h-3 w-3 rounded-full bg-primary blur-lg   content-[''];
+  }
 }
 
 @layer utilities {
@@ -26,12 +58,45 @@
   body {
     position: relative;
     overflow-x: hidden;
+    color: #ecf0ff;
   }
+
   #photo {
     background: linear-gradient(
       180deg,
       rgba(21, 57, 158, 0) 0%,
       rgba(15, 43, 135, 0.5) 100%
     );
+  }
+
+  /* API CARD */
+  .api-card {
+    background: linear-gradient(
+      180deg,
+      rgba(136, 136, 136, 0) 0%,
+      rgba(136, 136, 136, 0.5) 100%
+    );
+  }
+
+  .api-card:hover {
+    background: linear-gradient(
+      180deg,
+      rgba(34, 33, 52, 0) 0%,
+      rgba(99, 91, 255, 0.5) 100%
+    );
+  }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: #0000 !important;
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 }

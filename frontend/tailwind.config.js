@@ -22,6 +22,7 @@ module.exports = {
         "neutral-500": "#6E6E6E",
         "neutral-600": "#C0C0C0",
         background: "#18181B",
+        post: "#F2FF5B",
       },
       fontFamily: {
         inter: ["Inter", "sans-serif"],

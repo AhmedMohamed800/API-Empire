@@ -10,8 +10,8 @@ Routes:
     - /login: Endpoint for user login and logout.
 """
 from api.v1.views import app_views
-from flask import jsonify, request, session
-from models import AUTH
+from flask import jsonify, request
+from models import AUTH, KEY
 
 
 @app_views.route('/user', methods=['GET', 'POST', 'PUT'], strict_slashes=False)
@@ -34,13 +34,14 @@ def users():
     """
     if request.method == 'GET':
         try:
-            user = AUTH.get_user(session['session_id'])
+            user = AUTH.get_user(session_id=request.headers.get('session-id'))
             return jsonify(user), 200
         except ValueError as e:
             return jsonify({"error": str(e)}), 400
     elif request.method == 'PUT':
         try:
-            AUTH.update_user(session['session_id'], **request.form.to_dict())
+            AUTH.update_user(request.headers.get('session-id'),
+                             **request.get_json())
             return jsonify({}), 200
         except ValueError as e:
             return jsonify({"error": str(e)}), 400
@@ -69,18 +70,70 @@ def login():
     """
     if request.method == 'POST':
         try:
-            session['session_id'] = AUTH.login(request.form.get('email'),
-                                               request.form.get('password'))
-            if request.form.get('remeber_me'):
-                session.permanent = True
+            session_id = AUTH.login(request.form.get('email'),
+                                    request.form.get('password'))
             return jsonify({"email": request.form.get('email'),
-                            "message": "logged in"}), 200
+                           "session": session_id}), 200
         except ValueError as e:
             return jsonify({"error": str(e)}), 400
     try:
-        AUTH.logout(session['session_id'])
-        del session['session_id']
+        AUTH.logout(request.headers.get('session-id'))
+        return jsonify({"message": "Successfully logged out"}), 200
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
-    return jsonify({"email": request.form.get('email'),
-                    "message": "logged out"})
+
+
+@app_views.route('/reset', methods=['POST'], strict_slashes=False)
+def reset():
+    """Handles the reset endpoint.
+
+    This function handles the reset endpoint for the API.
+    It allows users to reset their password by providing their email and
+    a new password.
+
+    Returns:
+        A JSON response containing the email and a message indicating\
+            whether the password has been successfully reset.
+
+    Raises:
+        ValueError: If there is an error during the password reset process.
+    """
+    password = request.get_json().get('password')
+    token = request.headers.get('reset-token')
+    try:
+        AUTH.reset_password(token, password)
+        return jsonify({"message": "Password reset successfully"}), 200
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+
+
+@app_views.route('/get_key', methods=['POST'], strict_slashes=False)
+def get_key():
+    """Handles the get_key endpoint.
+
+    This function handles the get_key endpoint for the API.
+    It allows users to get their API key.
+
+    Returns:
+        A JSON response containing the email and the API key.
+
+    Raises:
+        ValueError: If there is an error during the API key retrieval process.
+    """
+    try:
+        key = KEY.create_key(request.headers.get('session-id'))
+        return jsonify({"message": "API key created successfully",
+                        "key": key}), 201
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+
+
+@app_views.route('/get_reqs', methods=['GET'], strict_slashes=False)
+def get_reqs():
+    """Handles the get_reqs endpoint."""
+    try:
+        return jsonify(AUTH.get_reqs
+                       (request.headers
+                        .get('session-id'))), 200
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400

@@ -8,8 +8,16 @@ import User from "./pages/User.tsx";
 import React from "react";
 import Billing from "./pages/Billing.tsx";
 import Traffic from "./pages/Traffic.tsx";
+import API from "./pages/API.tsx";
 import ResetPassowrd from "./pages/ResetPassowrd.tsx";
 import { Route, Routes } from "react-router-dom";
+import Home from "./layouts/Home.tsx";
+import LandingPage from "./pages/LandingPage.tsx";
+import Aboutus from "./pages/Aboutus.tsx";
+import Pricing from "./pages/Pricing.tsx";
+import NotFound from "./pages/NotFound.tsx";
+import BuyReqs from "./pages/BuyReqs.tsx";
+import Checkout from "./pages/Checkout.tsx";
 
 const App = () => {
   return (
@@ -22,10 +30,21 @@ const App = () => {
       </Route>
       <Route element={<Application />}>
         <Route path="/APIs" element={<APIs />} />
+        <Route path="/API/:id" element={<API />} />
         <Route path="/user" element={<User />} />
         <Route path="/billing" element={<Billing />} />
+        <Route path="/buyreqs" element={<BuyReqs />} />
         <Route path="/traffic" element={<Traffic />} />
+        <Route path="/checkout" element={<Checkout />} />
       </Route>
+      <Route element={<Home />}>
+        <Route path="/" index element={<LandingPage />} />
+        <Route path="/aboutus" element={<Aboutus />} />
+        <Route path="/pricing" element={<Pricing />} />
+        <Route path="/apihub" element={<APIs />} />
+        <Route path="/apihub/:id" element={<API />} />
+      </Route>
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };

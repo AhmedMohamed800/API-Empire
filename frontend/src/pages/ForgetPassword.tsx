@@ -3,14 +3,14 @@ import Label from "../components/Auth/Label.tsx";
 const logo = require("../assets/logo.svg") as string;
 const cover = require("../assets/auth/cover.svg") as string;
 import { useFormForget } from "../components/Auth/AuthHook.tsx";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const ForgetPassword = () => {
   useEffect(() => {
     document.title = "Forget Password";
   }, []);
 
-  const { form, handleForm, submitForm } = useFormForget();
+  const { form, handleForm, submitForm, error } = useFormForget();
   return (
     <section className="flex w-[50%] flex-col items-center justify-center gap-10 bg-background px-20 pt-[55px] max-lg:w-[100%] max-sm:px-5">
       <article className="flex flex-col items-center justify-center gap-1 font-semibold">
@@ -39,6 +39,9 @@ const ForgetPassword = () => {
           handle={handleForm}
           value={form.email}
         />
+        <p className={`${error || "hidden"}  pt-2 text-red-500`}>
+          This Email doesn't exist
+        </p>
         <button className="mt-6 rounded-md bg-primary py-3 font-bold text-white hover:opacity-80">
           Send Email
         </button>
