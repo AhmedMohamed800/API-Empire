@@ -7,22 +7,21 @@ It includes the following views:
 - abort_status: Aborts the request with a specified status code.
 """
 from api.v1.views import app_payment
-from flask import jsonify, abort, request
+from flask import jsonify, request
+from models import INV
 import paypalrestsdk
 
 
 paypalrestsdk.configure({
   "mode": "sandbox",
-  "client_id": "Acc2NHlsRMBVgXGafvkkkvd1QFCRV4HOAPRqfysiLrGYRu_lyKTHDcl4aGbe3zyDe7YG9yd9K2jsv0qe",
-  "client_secret": "EPX26zVDzTM2-TSaZu2HthOZnFLIGQJJlQpKEus3D1lbW8pT_aH-UABJkk1YyCB0JzkM3CFk8bVUU67i"
+  "client_id": "AY2esf1IcUaQdch1hSLQuZOV2XWbRckjwkqbu5ed-AHPEs-_HzS-boXgFqxawiVq6gckaKQNQwAPyKbq",
+  "client_secret": "EMoIHG83MLT9m85QuzYflHv7qyNPjObw2HxNvnjlBKJBKfdDMuXBIlYxdc6dcWoZJKTPMRW3fzNIbClQ"
 })
-
 
 @app_payment.route('/create', methods=['POST'], strict_slashes=False)
 def create_payment():
     """Create a payment """
-    data = request.form.to_dict()
-    print(data)
+    data = request.get_json()
     payment = paypalrestsdk.Payment({
         "intent": "sale",
         "payer": {
@@ -43,7 +42,8 @@ def create_payment():
                 "currency": f"{data['currency']}"},
             "description": "This is the payment transaction description."}]})
     if payment.create():
-        return jsonify({"paymentID": payment.id}), 201
+        ECToken = payment.links[1].href.split('token=')[1]
+        return jsonify({"id": ECToken}), 201
     else:
         return jsonify({"error": payment.error}), 400
 
@@ -51,8 +51,23 @@ def create_payment():
 @app_payment.route('/execute', methods=['POST'], strict_slashes=False)
 def execute_payment():
     """Execute a payment """
-    payment = paypalrestsdk.Payment.find(request.form['paymentID'])
-    if payment.execute({"payer_id": request.form['payerID']}):
+    payment = paypalrestsdk.Payment.find(request.get_json()['paymentID'])
+    if payment.execute({"payer_id": request.get_json()['payerID']}):
+        try:
+            INV.create_invoice(request.headers['session-id'],
+                               request.get_json()['paymentID'],
+                               request.get_json()['amount'])
+        except ValueError as e:
+            return jsonify({"error": str(e)}), 400
         return jsonify({"result": payment.id}), 200
     else:
         return jsonify({"error": payment.error}), 400
+
+@app_payment.route('/all', methods=['GET'], strict_slashes=False)
+def all_payment():
+    """Get all payments """
+    try:
+        data = INV.get_invoice(request.headers['session-id'])
+        return jsonify(data), 200
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
