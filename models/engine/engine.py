@@ -7,15 +7,15 @@ import models
 from models.base_model import Base
 from models.api import API
 from models.requests import Request
+from models.invoice import Invoice
 from models.auth import Auth
 from models.endpoint import Endpoint
-from models.headers import Headers
 from models.user import User
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
-classes = {"API": API, "Auth": Auth, "Endpoint": Endpoint, "Headers": Headers,
-           "User": User, "Request": Request}
+classes = {"API": API, "Auth": Auth, "Endpoint": Endpoint,
+           "User": User, "Request": Request, 'Invoice': Invoice}
 
 
 class DBStorage:
