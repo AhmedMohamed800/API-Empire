@@ -51,17 +51,13 @@ def create_payment():
 @app_payment.route('/execute', methods=['POST'], strict_slashes=False)
 def execute_payment():
     """Execute a payment """
-    payment = paypalrestsdk.Payment.find(request.get_json()['paymentID'])
-    if payment.execute({"payer_id": request.get_json()['payerID']}):
-        try:
-            INV.create_invoice(request.headers['session-id'],
-                               request.get_json()['paymentID'],
-                               request.get_json()['amount'])
-        except ValueError as e:
-            return jsonify({"error": str(e)}), 400
-        return jsonify({"result": payment.id}), 200
-    else:
-        return jsonify({"error": payment.error}), 400
+    try:
+        INV.create_invoice(request.headers['session-id'],
+                           request.get_json()['paymentID'],
+                           request.get_json()['amount'])
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+    
 
 @app_payment.route('/all', methods=['GET'], strict_slashes=False)
 def all_payment():
