@@ -13,7 +13,7 @@ function Signup() {
   const { form, error, handleForm, submitForm } = useFormUP();
 
   return (
-    <section className="flex w-[50%] flex-col items-center gap-10 bg-background px-20 pt-[55px] max-lg:w-[100%] max-md:pt-[20px] max-sm:px-5">
+    <section className="flex w-[50%] flex-col  items-center gap-10 bg-background px-20 pt-[55px] max-xl:px-10 max-lg:w-[100%] max-sm:px-5">
       <article className="flex flex-col items-center justify-center gap-1 font-semibold">
         <h1 className="flex items-center gap-1 text-2xl  text-white">
           <span>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 interface paymentInfo {
   price: number;
@@ -11,10 +12,12 @@ interface paymentInfo {
 const Checkout = () => {
   const location = useLocation();
   const navigate = useNavigate();
+
   const [paymentInfo, setPaymentInfo] = useState<paymentInfo>({
     price: 0,
     request: 0,
   });
+
   const initialOptions = {
     clientId: `${process.env.REACT_APP_PAYPAL_CLIENT_ID}`,
     currency: "USD",
@@ -26,24 +29,9 @@ const Checkout = () => {
     if (!location.state) {
       navigate("/billing");
     } else {
-      setPaymentInfo({ price, request });
+      setPaymentInfo((prev) => ({ ...prev, price, request }));
     }
   }, []);
-
-  const onApprove = (data, actions) => {
-    return actions.order.capture().then((details) => {
-      const CreatePaymentURL = `${process.env.REACT_APP_API_URL}/api/v1/payment/execute`;
-      console.log(details);
-      axios
-        .post(CreatePaymentURL, { paymentID: details.id })
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    });
-  };
 
   const createOrder = (data, actions) => {
     const CreatePaymentURL = `${process.env.REACT_APP_API_URL}/api/v1/payment/create`;
@@ -65,6 +53,36 @@ const Checkout = () => {
       });
   };
 
+  const onApprove = (data, actions) => {
+    return actions.order.capture().then((details) => {
+      const CreatePaymentURL = `${process.env.REACT_APP_API_URL}/api/v1/payment/execute`;
+      console.log(details);
+
+      const session = Cookies.get("session");
+      if (session) {
+        axios
+          .post(
+            CreatePaymentURL,
+            {
+              paymentID: details.id,
+              amount: price,
+            },
+            { headers: { "session-id": JSON.parse(session) } },
+          )
+          .then((res) => {
+            navigate("/billing");
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      }
+    });
+  };
+
+  const onError = (err) => {
+    return false;
+  };
+
   return (
     <PayPalScriptProvider options={initialOptions}>
       <div className=" z-10 mx-auto  flex w-[550px] flex-col  justify-center gap-4 ">
@@ -77,7 +95,11 @@ const Checkout = () => {
           <p>Requests: {paymentInfo.request}</p>
         </section>
 
-        <PayPalButtons onApprove={onApprove} createOrder={createOrder} />
+        <PayPalButtons
+          createOrder={createOrder}
+          onApprove={onApprove}
+          onError={onError}
+        />
       </div>
     </PayPalScriptProvider>
   );

@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS user (
 CREATE TABLE IF NOT EXISTS requests (
     id INT PRIMARY KEY AUTO_INCREMENT,
     method ENUM('GET', 'POST', 'PUT', 'DELETE'),
+    ip VARCHAR(255),
     status_code INT,
     path VARCHAR(255),
     date VARCHAR(255),
@@ -62,6 +63,6 @@ CREATE TABLE IF NOT EXISTS headers (
     FOREIGN KEY (endpoint_id) REFERENCES endpoint(id)
 );
 
-CREATE USER 'api_user'@'localhost' IDENTIFIED BY 'password';
+CREATE USER IF NOT EXISTS 'api_user'@'localhost' IDENTIFIED BY 'password';
 GRANT ALL PRIVILEGES ON api_db.* TO 'api_user'@'localhost';
 FLUSH PRIVILEGES;

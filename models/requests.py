@@ -15,6 +15,7 @@ class Request(BaseModel, Base):
     __tablename__ = 'requests'
 
     method = Column(Enum(RequestMethod), nullable=False)
+    ip = Column(String(255))
     status_code = Column(Integer)
     path = Column(String(255))
     date = Column(String(255))

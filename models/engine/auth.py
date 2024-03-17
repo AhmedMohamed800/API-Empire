@@ -153,6 +153,21 @@ class Auth:
         users = [user for user in self.__storage.all(User)]
         return users
 
+    def reqs(self, session_id):
+        """ reqs """
+        if not session_id:
+            raise ValueError("no session found")
+        user = self.__storage.get('User', session_id=session_id)
+        if not user:
+            raise ValueError("no user found")
+        if not user.auth:
+            raise ValueError("no auth KEY found")
+        data = {}
+        data['used_req'] = user.auth.used_req
+        data['max_req'] = user.auth.max_req
+        data['available_req'] = data['max_req'] - data['used_req']
+        return data
+
     def close(self):
         """ close """
         self.__storage.close()

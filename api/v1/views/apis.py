@@ -19,6 +19,7 @@ def get_endpoints(function=None):
 @app_apis.route('/currency', methods=['GET'], strict_slashes=False)
 def currency():
     """ Get currency """
+    print('in the endpoint')
     try:
         answer = APIS.currency(request)
         return answer.json(), answer.status_code

@@ -35,8 +35,8 @@ class Apis:
             api_url = f'{url}{function}.json?key={weather_api_key}&q={ip}'
             response = requests.get(api_url)
         else:
-            api_url = f'{url}{function}.json?key={weather_api_key}&\
-                {request.query_string.decode()}'
+            para = f'?key={weather_api_key}&{request.query_string.decode()}'
+            api_url = f'{url}{function}.json{para}'
             response = requests.get(api_url)
         if response.status_code == 200:
             self.add_req(request.headers.get('X-APIEMPIR-KEY'))
@@ -87,9 +87,9 @@ class Apis:
         key = self.__storage.get('Auth',
                                  hashed_key=request.headers.get('X-APIEMPIR-KEY'))
         user = self.__storage.get('User', auth_id=key.id)
-        print(user.id)
         req = Request(
             method=request.method,
+            ip=request.remote_addr,
             status_code=response.status_code,
             path=request.path,
             date=datetime.now(),
@@ -103,5 +103,4 @@ class Apis:
         """add request"""
         key = self.__storage.get('Auth', hashed_key=header)
         key.used_req += 1
-        
         self.__storage.save()
