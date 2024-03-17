@@ -39,10 +39,12 @@ class DBStorage:
             # Handle exceptions
             print("Error in DBStorage.__init__:", e)
 
-    def all(self, cls=None):
+    def all(self, cls=None, user_id=None):
         """Query on the current database session"""
         try:
             if cls:
+                if user_id:
+                    return self.__session.query(cls).filter_by(user_id=user_id).all()
                 return self.__session.query(cls).all()
             else:
                 return [self.__session.query(cls).all() for cls in classes.values()]
