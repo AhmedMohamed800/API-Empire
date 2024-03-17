@@ -143,8 +143,6 @@ def get_reqs():
 def reqs():
     """Handles the reqs endpoint."""
     try:
-        return jsonify(AUTH.reqs
-                       (request.headers
-                        .get('session-id'))), 200
+        return jsonify(AUTH.reqs(request.headers.get('session-id'))), 200
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
