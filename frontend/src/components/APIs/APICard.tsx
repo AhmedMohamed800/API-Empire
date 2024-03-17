@@ -1,5 +1,7 @@
+import path from "path";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 interface APICardProps {
   title: string;
@@ -17,8 +19,14 @@ const APICard: React.FC<APICardProps> = ({
   category,
 }) => {
   const navigate = useNavigate();
+  const location = useLocation();
+
   function handleConnect() {
-    navigate(`/API/${url}`);
+    const { pathname } = location;
+
+    pathname === "/apihub"
+      ? navigate(`/apihub/${url}`)
+      : navigate(`/API/${url}`);
   }
 
   return (

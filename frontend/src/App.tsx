@@ -15,6 +15,9 @@ import Home from "./layouts/Home.tsx";
 import LandingPage from "./pages/LandingPage.tsx";
 import Aboutus from "./pages/Aboutus.tsx";
 import Pricing from "./pages/Pricing.tsx";
+import NotFound from "./pages/NotFound.tsx";
+import BuyReqs from "./pages/BuyReqs.tsx";
+import Checkout from "./pages/Checkout.tsx";
 
 const App = () => {
   return (
@@ -30,14 +33,18 @@ const App = () => {
         <Route path="/API/:id" element={<API />} />
         <Route path="/user" element={<User />} />
         <Route path="/billing" element={<Billing />} />
+        <Route path="/buyreqs" element={<BuyReqs />} />
         <Route path="/traffic" element={<Traffic />} />
+        <Route path="/checkout" element={<Checkout />} />
       </Route>
       <Route element={<Home />}>
         <Route path="/" index element={<LandingPage />} />
-        <Route path="/aboutus" index element={<Aboutus />} />
-        <Route path="/pricing" index element={<Pricing />} />
-        <Route path="/apis/hub" index element={<Pricing />} />
+        <Route path="/aboutus" element={<Aboutus />} />
+        <Route path="/pricing" element={<Pricing />} />
+        <Route path="/apihub" element={<APIs />} />
+        <Route path="/apihub/:id" element={<API />} />
       </Route>
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };

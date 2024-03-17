@@ -24,6 +24,20 @@ interface key {
 }
 
 const User = () => {
+  const [isCopied, setIsCopied] = useState(false);
+
+  useEffect(() => {
+    let timeoutId;
+    if (isCopied) {
+      timeoutId = setTimeout(() => setIsCopied(false), 2000);
+    }
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [isCopied]);
+
   const { user, setUser } = useContext<any>(UserContext);
   const [key, setKey] = useState<key>({ key: "", message: "" });
   const [saved, setSaved] = useState(false);
@@ -110,7 +124,7 @@ const User = () => {
   return (
     <form
       onSubmit={saveChanges}
-      className="z-10 mx-20 flex grow  flex-col   justify-center gap-6 max-sm:mx-5"
+      className="z-10 mx-20 flex grow  flex-col   justify-center gap-6 max-md:mx-5 xl:mx-auto xl:w-[55%]"
     >
       <div className="flex gap-6">
         <label htmlFor="first_name" className="label relative grow">
@@ -188,25 +202,42 @@ const User = () => {
           }}
         />
       </label>
-      <div className="flex items-end gap-6">
+      <div className="relative flex items-end gap-4 max-sm:flex-col max-sm:items-stretch">
         <div className="label grow">
           <span className="label_span">KEY</span>
-          <p className="input">{key.key ? key.key : "***************"}</p>
+          <p className="input">{key.key ? key.key : "There is no Key"}</p>
         </div>
 
-        <button
-          type="button"
-          className="mb-[1px] rounded-md bg-primary p-3 text-white hover:opacity-80"
-          onClick={getNewKey}
+        <div className="flex gap-4 max-sm:[&>button]:w-[50%]">
+          <button
+            type="button"
+            className="mb-[1px] rounded-md bg-primary p-3 text-white hover:opacity-80"
+            onClick={getNewKey}
+          >
+            Get New Key
+          </button>
+          <button
+            type="button"
+            className="mb-[1px] rounded-md bg-primary p-3 text-white hover:opacity-80"
+            onClick={() => {
+              navigator.clipboard.writeText(key.key);
+              setIsCopied(true);
+            }}
+          >
+            Copy
+          </button>
+        </div>
+        <p
+          className={`absolute top-[90px] text-green-500  max-sm:top-[155px] ${key.message || "hidden"}`}
         >
-          GET NEW KEY
-        </button>
+          {key.message}
+        </p>
+        {isCopied && (
+          <p className=" absolute left-12 top-[3px] rounded-md bg-primary px-2 text-sm">
+            Copied
+          </p>
+        )}
       </div>
-      <p
-        className={`relative bottom-3 text-green-500 ${key.message || "hidden"}`}
-      >
-        {key.message}
-      </p>
 
       <button className="mt-5 rounded-md  bg-primary p-3 text-white hover:opacity-80">
         Save Changes

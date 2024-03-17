@@ -32,6 +32,19 @@
   .td {
     @apply border-2 border-primary p-4 text-center;
   }
+
+  /* Navbar Home */
+  .activeHome {
+    @apply relative flex flex-col-reverse items-center justify-center text-primary;
+  }
+
+  .activeHome::before {
+    @apply h-2 w-2 rounded-full bg-primary shadow-sm   content-[''];
+  }
+
+  .activeHome::after {
+    @apply absolute -bottom-2 h-3 w-3 rounded-full bg-primary blur-lg   content-[''];
+  }
 }
 
 @layer utilities {
@@ -45,6 +58,7 @@
   body {
     position: relative;
     overflow-x: hidden;
+    color: #ecf0ff;
   }
 
   #photo {
@@ -70,5 +84,19 @@
       rgba(34, 33, 52, 0) 0%,
       rgba(99, 91, 255, 0.5) 100%
     );
+  }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: #0000 !important;
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 }
