@@ -93,4 +93,10 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: #0000 !important;
   }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 }

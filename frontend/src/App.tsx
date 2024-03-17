@@ -16,42 +16,36 @@ import LandingPage from "./pages/LandingPage.tsx";
 import Aboutus from "./pages/Aboutus.tsx";
 import Pricing from "./pages/Pricing.tsx";
 import NotFound from "./pages/NotFound.tsx";
-import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+import BuyReqs from "./pages/BuyReqs.tsx";
+import Checkout from "./pages/Checkout.tsx";
 
 const App = () => {
-  const initialOptions = {
-    clientId:
-      "Acc2NHlsRMBVgXGafvkkkvd1QFCRV4HOAPRqfysiLrGYRu_lyKTHDcl4aGbe3zyDe7YG9yd9K2jsv0qe",
-    currency: "USD",
-    intent: "capture",
-  };
-
   return (
-    <PayPalScriptProvider options={initialOptions}>
-      <Routes>
-        <Route element={<Auth />}>
-          <Route path="/auth/sign_in" element={<Signin />} />
-          <Route path="/auth/sign_up" element={<Signup />} />
-          <Route path="/auth/forget" element={<ForgetPassword />} />
-          <Route path="/auth/reset/:token" element={<ResetPassowrd />} />
-        </Route>
-        <Route element={<Application />}>
-          <Route path="/APIs" element={<APIs />} />
-          <Route path="/API/:id" element={<API />} />
-          <Route path="/user" element={<User />} />
-          <Route path="/billing" element={<Billing />} />
-          <Route path="/traffic" element={<Traffic />} />
-        </Route>
-        <Route element={<Home />}>
-          <Route path="/" index element={<LandingPage />} />
-          <Route path="/aboutus" element={<Aboutus />} />
-          <Route path="/pricing" element={<Pricing />} />
-          <Route path="/apihub" element={<APIs />} />
-          <Route path="/apihub/:id" element={<API />} />
-        </Route>
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </PayPalScriptProvider>
+    <Routes>
+      <Route element={<Auth />}>
+        <Route path="/auth/sign_in" element={<Signin />} />
+        <Route path="/auth/sign_up" element={<Signup />} />
+        <Route path="/auth/forget" element={<ForgetPassword />} />
+        <Route path="/auth/reset/:token" element={<ResetPassowrd />} />
+      </Route>
+      <Route element={<Application />}>
+        <Route path="/APIs" element={<APIs />} />
+        <Route path="/API/:id" element={<API />} />
+        <Route path="/user" element={<User />} />
+        <Route path="/billing" element={<Billing />} />
+        <Route path="/buyreqs" element={<BuyReqs />} />
+        <Route path="/traffic" element={<Traffic />} />
+        <Route path="/checkout" element={<Checkout />} />
+      </Route>
+      <Route element={<Home />}>
+        <Route path="/" index element={<LandingPage />} />
+        <Route path="/aboutus" element={<Aboutus />} />
+        <Route path="/pricing" element={<Pricing />} />
+        <Route path="/apihub" element={<APIs />} />
+        <Route path="/apihub/:id" element={<API />} />
+      </Route>
+      <Route path="*" element={<NotFound />} />
+    </Routes>
   );
 };
 
