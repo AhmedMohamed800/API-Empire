@@ -4,7 +4,7 @@ from models.engine.engine import DBStorage
 from models.invoice import Invoice
 
 
-class Invoice:
+class Payment:
     """ AUTH class """
     __storage = None
 
@@ -23,7 +23,8 @@ class Invoice:
             raise ValueError("no user found")
         if not user.auth:
             raise ValueError("no auth key found")
-        num = int(amount) / 0.01
+        num = float(amount) / 0.01
+        user.auth.max_req += num
         self.__storage.new(Invoice(user_id=user.id, amount=amount,
                                    payment_id=payment_id, request=num))
         self.__storage.save()
