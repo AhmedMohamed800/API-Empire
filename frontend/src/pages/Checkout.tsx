@@ -85,7 +85,7 @@ const Checkout = () => {
 
   return (
     <PayPalScriptProvider options={initialOptions}>
-      <div className=" z-10 mx-auto  flex w-[550px] flex-col  justify-center gap-4 ">
+      <div className=" z-10 mx-auto  flex w-[550px] flex-col justify-center gap-4  max-sm:w-full max-sm:px-4 ">
         <section className="rounded-md bg-primary p-4">
           <div className="mb-2 flex justify-between text-[18px]">
             <p>API Empire</p>

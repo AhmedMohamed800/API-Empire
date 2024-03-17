@@ -38,7 +38,9 @@ const BuyReqs = (props: Props) => {
           Transparent, Flexible, Affordable
         </h1>
       </header>
-      <main className={`mx-auto flex w-[800px] flex-col gap-6 `}>
+      <main
+        className={`mx-auto flex w-[800px] flex-col gap-6 max-lg:w-[500px] max-sm:w-full `}
+      >
         <div className="self-center rounded-md bg-primary px-6 py-3 text-center">
           <h4>Estimated Cost</h4>
           <p>{price ? (price * 0.01).toFixed(2) : 0}$</p>
@@ -62,7 +64,7 @@ const BuyReqs = (props: Props) => {
               className="w-full rounded-md border-2 border-white bg-transparent px-4 py-2 text-white focus:outline-none"
             />
           </label>
-          <section className="flex justify-between">
+          <section className="flex justify-between max-sm:flex-col max-sm:items-center">
             <div className="flex gap-6">
               <button className="flex flex-col items-center gap-2">
                 <img
