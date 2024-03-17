@@ -55,6 +55,7 @@ def execute_payment():
         INV.create_invoice(request.headers['session-id'],
                            request.get_json()['paymentID'],
                            request.get_json()['amount'])
+        return jsonify({"message": "payment is succefuly done"}), 200
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
     
