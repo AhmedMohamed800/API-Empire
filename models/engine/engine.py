@@ -44,10 +44,12 @@ class DBStorage:
         try:
             if cls:
                 if user_id:
-                    return self.__session.query(cls).filter_by(user_id=user_id).all()
+                    return self.__session.query(cls).filter_by(user_id=user_id
+                                                               ).all()
                 return self.__session.query(cls).all()
             else:
-                return [self.__session.query(cls).all() for cls in classes.values()]
+                return [self.__session.query(cls).all()
+                        for cls in classes.values()]
         except SQLAlchemyError as e:
             # Handle exceptions
             print("Error in DBStorage.all:", e)
@@ -87,7 +89,8 @@ class DBStorage:
             metadata.reflect(bind=self.__engine)
             configure_mappers()
             Base.metadata.create_all(self.__engine)
-            sess_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
+            sess_factory = sessionmaker(
+                bind=self.__engine, expire_on_commit=False)
             self.__session = scoped_session(sess_factory)
         except SQLAlchemyError as e:
             # Handle exceptions
@@ -114,8 +117,10 @@ class DBStorage:
                 if key not in classes[cls].__table__.columns.keys():
                     return None
             if 'api_id' in kwargs or 'user_id' in kwargs and cls == 'Request':
-                return self.__session.query(classes[cls]).filter_by(**kwargs).all()
-            return self.__session.query(classes[cls]).filter_by(**kwargs).first()
+                return self.__session.query(classes[cls]
+                                            ).filter_by(**kwargs).all()
+            return self.__session.query(classes[cls]
+                                        ).filter_by(**kwargs).first()
         except SQLAlchemyError as e:
             # Handle exceptions
             print("Error in DBStorage.get:", e)
@@ -124,7 +129,8 @@ class DBStorage:
     def update(self, cls, **kwargs):
         """ Update the object """
         try:
-            self.__session.query(cls.__class__).filter_by(email=cls.email).update(kwargs)
+            self.__session.query(cls.__class__).filter_by(
+                email=cls.email).update(kwargs)
             self.save()  # Save changes immediately
         except SQLAlchemyError as e:
             # Handle exceptions

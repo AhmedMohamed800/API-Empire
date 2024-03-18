@@ -7,3 +7,4 @@ flask-cors
 Flask-Mail
 mysql-connector-python
 paypalrestsdk
+flasgger

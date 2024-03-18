@@ -46,7 +46,7 @@ def users():
         except ValueError as e:
             return jsonify({"error": str(e)}), 400
     try:
-        AUTH.create_user(**request.form.to_dict())
+        AUTH.get_code(request.get_json().get('code'))
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
     return jsonify({}), 201
@@ -141,7 +141,22 @@ def get_reqs():
 
 @app_views.route('/reqs', methods=['GET'], strict_slashes=False)
 def reqs():
-    """Handles the reqs endpoint."""
+    """Handles the reqs endpoint.
+
+    This function is responsible for handling the GET requests to the\
+        '/reqs' endpoint.
+    It retrieves the session ID from the request headers and passes\
+        it to the AUTH.reqs() function.
+    The response from AUTH.reqs() is then returned as a JSON object\
+        with a status code of 200.
+    If any ValueError occurs during the process, it is caught and returned\
+        as a JSON object with a status code of 400.
+
+    Returns:
+        A JSON response containing the result of the AUTH.reqs()\
+            function call or an error message.
+
+    """
     try:
         return jsonify(AUTH.reqs(request.headers.get('session-id'))), 200
     except ValueError as e:

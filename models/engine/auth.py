@@ -4,22 +4,79 @@ from models.engine.engine import DBStorage
 from models.user import User
 from bcrypt import hashpw, gensalt, checkpw
 from uuid import uuid4 as uu
+from time import time
 
 
-class Auth:
-    """ AUTH class """
+class AuthEngine:
+    """
+    The AuthEngine class provides authentication\
+        functionality for managing users and sessions.
+
+    Attributes:
+        __storage (DBStorage): An instance of the DBStorage class for\
+            data storage.
+        __tokens (dict): A dictionary to store authentication tokens.
+
+    Methods:
+        __init__(): Initializes the AuthEngine class.
+        reload(): Reloads the data storage.
+        add_code(code, data): Adds an authentication code to\
+            the tokens dictionary.
+        get_code(code): Retrieves the authentication code from the tokens\
+            dictionary and creates a user.
+        create_user(**kwargs): Creates a new user with the\
+            provided user information.
+        get_user(**kwargs): Retrieves user information based\
+            on the provided session ID or email.
+        login(email, password): Authenticates the user with\
+            the provided email and password.
+        logout(session_id): Logs out the user with the provided session ID.
+        update_user(session_id, **kwargs): Updates the user information\
+            with the provided session ID and user data.
+        create_session(user): Creates a new session for the user.
+        forgot_password(email): Generates a reset token for the user\
+            with the provided email.
+        reset_password(reset_token, new_password): Resets the user's\
+            password with the provided reset token and new password.
+        get_user_with(**kwargs): Retrieves user information\
+            based on the provided criteria.
+        get_reqs(session_id): Retrieves the requests made by the user with\
+            the provided session ID.
+        all_users(): Retrieves information about all users.
+        reqs(session_id): Retrieves the remaining request quota\
+            for the user with the provided session ID.
+        close(): Closes the data storage connection.
+    """
+
     __storage = None
+    __tokens = {}
 
     def __init__(self):
-        """ init """
+        """ Initializes the AuthEngine class. """
         self.__storage = DBStorage()
 
     def reload(self):
-        """ reload """
+        """ Reloads the data storage. """
         self.__storage.reload()
 
+    def add_code(self, code, data):
+        """ Adds an authentication code to the tokens dictionary. """
+        self.__tokens[code] = data
+
+    def get_code(self, code):
+        """ Retrieves the authentication code from the tokens dictionary\
+            and creates a user. """
+        if code not in self.__tokens.keys():
+            raise ValueError("no code found")
+        del self.__tokens[code]['Time']
+        self.create_user(self.__tokens[code])
+        del self.__tokens[code]
+        for k, v in self.__tokens.items():
+            if v['Time'] < time() - 300:
+                del self.__tokens[k]
+
     def create_user(self, **kwargs):
-        """ create user """
+        """ Creates a new user with the provided user information. """
         admins = ['meemoo102039@gmail.com',
                   'ahmedmoh0107@gmail.com']
         req = ['email', 'password', 'first_name', 'last_name']
@@ -135,7 +192,7 @@ class Auth:
         if not user:
             raise ValueError("no user found")
         return user
-    
+
     def get_reqs(self, session_id):
         """ get reqs """
         user = self.__storage.get('User', session_id=session_id)

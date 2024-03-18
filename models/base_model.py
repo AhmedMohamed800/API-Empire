@@ -1,7 +1,5 @@
-#!/usr/bin/python3
-"""
-Contains class BaseModel
-"""
+#!/usr/bin/env python3
+"""SQLAlqumy BaseModel module"""
 
 import models
 from sqlalchemy import Column, Integer
@@ -13,6 +11,7 @@ Base = declarative_base()
 
 class BaseModel:
     """The BaseModel class from which future classes will be derived"""
+
     id = Column(Integer, primary_key=True, autoincrement=True)
 
     def __init__(self, *args, **kwargs):
@@ -28,12 +27,12 @@ class BaseModel:
                                          self.__dict__)
 
     def save(self):
-        """updates the attribute 'updated_at' with the current datetime"""
+        """Updates the attribute 'updated_at' with the current datetime"""
         models.storage.new(self)
         models.storage.save()
 
     def to_dict(self, save_fs=None):
-        """returns a dictionary containing all keys/values of the instance"""
+        """Returns a dictionary containing all keys/values of the instance"""
         new_dict = self.__dict__.copy()
         new_dict["__class__"] = self.__class__.__name__
         if "_sa_instance_state" in new_dict:
@@ -44,5 +43,5 @@ class BaseModel:
         return new_dict
 
     def delete(self):
-        """delete the current instance from the storage"""
+        """Deletes the current instance from the storage"""
         models.storage.delete(self)

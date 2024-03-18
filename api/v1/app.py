@@ -6,9 +6,9 @@ from models.config import Config
 from flask import Flask, jsonify, request, render_template
 from flask_mail import Mail, Message
 from flask_cors import CORS
-from flasgger import Swagger
-from datetime import timedelta
+from datetime import timedelta, datetime
 import secrets
+from uuid import uuid4 as uu
 
 
 app = Flask(__name__)
@@ -30,17 +30,6 @@ def close_db(error):
     AUTH.close()
 
 
-@app.errorhandler(404)
-def not_found(error):
-    """ 404 Error
-    ---
-    responses:
-      404:
-        description: a resource was not found
-    """
-    return jsonify({'error': "Not found"}), 404
-
-
 @app.route('/forgot_password', methods=['POST'])
 def forgot():
     """send email to user with reset link"""
@@ -59,21 +48,21 @@ def forgot():
     return jsonify({'Message': 'check your email'}), 200
 
 
-@app.route('/test', methods=['GET'])
+@app.route('/signup', methods=['POST'], strict_slashes=False)
 def test():
     """test"""
-    users = AUTH.all_users()
-    for user in range(len(users)):
-        users[user] = users[user].to_dict()
-    return jsonify(users), 200
-
-
-app.config['SWAGGER'] = {
-    'title': 'API Empire',
-    'uiversion': 1
-}
-
-Swagger(app)
+    data = request.get_json()
+    data['Time'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    code = str(uu())
+    AUTH.add_code(code, data)
+    email_body = render_template('active.html', token=code,
+                                 first_name=data['first_name'])
+    msg = Message('Password Reset',
+                  recipients=[data['email']],
+                  html=email_body)
+    mail.send(msg)
+    return jsonify({'Message':
+                    'check your email to activate your account'}), 200
 
 
 if __name__ == "__main__":
