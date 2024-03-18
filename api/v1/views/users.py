@@ -42,14 +42,16 @@ def users():
         try:
             AUTH.update_user(request.headers.get('session-id'),
                              **request.get_json())
-            return jsonify({}), 200
+            return jsonify({"Message":
+                "Your data have been updated succefully"}), 200
         except ValueError as e:
             return jsonify({"error": str(e)}), 400
     try:
         AUTH.get_code(request.headers.get('token'))
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
-    return jsonify({}), 201
+    return jsonify({"Message":
+        "User created succefully"}), 201
 
 
 @app_views.route('/login', methods=['POST', 'DELETE'], strict_slashes=False)

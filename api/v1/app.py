@@ -47,7 +47,8 @@ def forgot():
         mail.send(msg)
     except Exception as e:
         return jsonify({'error': str(e)}), 400
-    return jsonify({'Message': 'check your email'}), 200
+    return jsonify({'Message':
+        'check your email to reset your password'}), 200
 
 
 @app.route('/signup', methods=['POST'], strict_slashes=False)
