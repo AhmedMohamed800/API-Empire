@@ -6,5 +6,6 @@ flask_sqlalchemy
 flask-cors
 Flask-Mail
 mysql-connector-python
+requests
 paypalrestsdk
 flasgger
