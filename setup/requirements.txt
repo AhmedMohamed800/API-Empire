@@ -9,4 +9,3 @@ mysql-connector-python
 paypalrestsdk
 flasgger
 pytest
-dnspython

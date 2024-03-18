@@ -1,18 +1,15 @@
 #!/usr/bin/env python3
 """Config module"""
 import re
-import dns.resolver
 
 
 def validate_email(email):
     """validate email"""
     pattern = r'^\S+@\S+\.\S+$'
     if not re.match(pattern, email):
-        raise ValueError('Email does not exist')
-    try:
-        dns.resolver.resolve(email.split('@')[1], 'MX')
-    except Exception as e:
-        raise ValueError('Email does not exist')
+        x = 'Email should follow this pattern example@example.exmaple'
+        raise ValueError(x)
+
 
 
 def check_password(password):
