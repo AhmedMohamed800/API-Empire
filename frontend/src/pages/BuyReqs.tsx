@@ -2,12 +2,14 @@ import React from "react";
 import { useEffect, useState } from "react";
 const arrow = require("../assets/payment/arrow.svg") as string;
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 type Props = {};
 
 const BuyReqs = (props: Props) => {
   const [price, setPrice] = useState(1);
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     if (parseInt(event.target.value) > 50000000) return setPrice(50000000);
@@ -19,13 +21,16 @@ const BuyReqs = (props: Props) => {
 
   function getPaymentID(e) {
     if (price === 0 || isNaN(price)) return;
-
-    navigate(`/checkout`, {
-      state: {
-        price: (price * 0.01).toFixed(2),
-        request: price,
-      },
-    });
+    if (pathname.includes("/pricing")) {
+      navigate("/billing");
+    } else {
+      navigate(`/checkout`, {
+        state: {
+          price: (price * 0.01).toFixed(2),
+          request: price,
+        },
+      });
+    }
   }
 
   return (
@@ -38,7 +43,9 @@ const BuyReqs = (props: Props) => {
           Transparent, Flexible, Affordable
         </h1>
       </header>
-      <main className={`mx-auto flex w-[800px] flex-col gap-6 `}>
+      <main
+        className={`mx-auto flex w-[800px] flex-col gap-6 max-lg:w-[500px] max-sm:w-full `}
+      >
         <div className="self-center rounded-md bg-primary px-6 py-3 text-center">
           <h4>Estimated Cost</h4>
           <p>{price ? (price * 0.01).toFixed(2) : 0}$</p>
@@ -62,7 +69,7 @@ const BuyReqs = (props: Props) => {
               className="w-full rounded-md border-2 border-white bg-transparent px-4 py-2 text-white focus:outline-none"
             />
           </label>
-          <section className="flex justify-between">
+          <section className="flex justify-between max-sm:flex-col max-sm:items-center">
             <div className="flex gap-6">
               <button className="flex flex-col items-center gap-2">
                 <img
@@ -169,7 +176,7 @@ const BuyReqs = (props: Props) => {
           className=" self-center rounded-md bg-primary px-6 py-3 hover:opacity-80"
           onClick={getPaymentID}
         >
-          Pay Now
+          {pathname.includes("/pricing") ? "Join Us" : "Pay Now"}
         </button>
       </main>
     </div>

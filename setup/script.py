@@ -7,7 +7,6 @@ import requests
 from faker import Faker
 
 
-
 THEURL = 'https://apiempire.site/api'
 
 

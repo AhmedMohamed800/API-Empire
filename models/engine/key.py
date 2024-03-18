@@ -1,27 +1,39 @@
 #!/usr/bin/env python3
 from models.engine.engine import DBStorage
 from models.auth import Auth
-from models.engine.auth import Auth as a
+from models.engine.auth import AuthEngine as a
 from uuid import uuid4
 
 
-class Key:
-    """key class"""
+class KeyEngine:
+    """A class that represents a key\
+        engine for creating and retrieving keys."""
+
     def __init__(self):
-        """init"""
+        """Initialize the KeyEngine class."""
         self.__storage = DBStorage()
 
     def reload(self):
-        """reload"""
+        """Reload the key engine."""
         self.__storage.reload()
 
     def create_key(self, session_id):
-        """create key"""
+        """Create a new key for the given session ID.
+
+        Args:
+            session_id (str): The session ID.
+
+        Returns:
+            str: The hashed key.
+
+        Raises:
+            ValueError: If no session is found or no user is found.
+        """
         if not session_id:
-            raise ValueError("no session found")
+            raise ValueError("No session found")
         user = self.__storage.get('User', session_id=session_id)
         if not user:
-            raise ValueError("no user found")
+            raise ValueError("No user found")
         key = Auth()
         if user.auth_id is None:
             key.max_req = 1000
@@ -37,12 +49,23 @@ class Key:
         return key.hashed_key
 
     def get_key(self, session_id):
-        """get key"""
+        """Get the key for the given session ID.
+
+        Args:
+            session_id (str): The session ID.
+
+        Returns:
+            str: The hashed key.
+
+        Raises:
+            ValueError: If no session is found,\
+                no user is found, or no key is found.
+        """
         if not session_id:
-            raise ValueError("no session found")
+            raise ValueError("No session found")
         user = self.__storage.get('User', session_id=session_id)
         if not user:
-            raise ValueError("no user found")
+            raise ValueError("No user found")
         if user.auth is None:
-            raise ValueError("no key found")
+            raise ValueError("No key found")
         return user.auth.hashed_key

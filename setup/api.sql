@@ -22,6 +22,16 @@ CREATE TABLE IF NOT EXISTS user (
     FOREIGN KEY (auth_id) REFERENCES auth(id)
 );
 
+CREATE TABLE IF NOT EXISTS invoice (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    payment_id VARCHAR(255),
+    amount DECIMAL(10, 2),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    request INT,
+    user_id INT,
+    FOREIGN KEY (user_id) REFERENCES user(id)
+);
+
 CREATE TABLE IF NOT EXISTS requests (
     id INT PRIMARY KEY AUTO_INCREMENT,
     method ENUM('GET', 'POST', 'PUT', 'DELETE'),
@@ -52,15 +62,6 @@ CREATE TABLE IF NOT EXISTS endpoint (
     api_id INT,
     category VARCHAR(255),
     FOREIGN KEY (api_id) REFERENCES API(id)
-);
-
-CREATE TABLE IF NOT EXISTS headers (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(255),
-    description TEXT,
-    type ENUM('string', 'int','float', 'boolean', 'array', 'object'),
-    endpoint_id INT,
-    FOREIGN KEY (endpoint_id) REFERENCES endpoint(id)
 );
 
 CREATE USER IF NOT EXISTS 'api_user'@'localhost' IDENTIFIED BY 'password';

@@ -56,7 +56,6 @@ const Checkout = () => {
   const onApprove = (data, actions) => {
     return actions.order.capture().then((details) => {
       const CreatePaymentURL = `${process.env.REACT_APP_API_URL}/api/v1/payment/execute`;
-      console.log(details);
 
       const session = Cookies.get("session");
       if (session) {
@@ -85,7 +84,7 @@ const Checkout = () => {
 
   return (
     <PayPalScriptProvider options={initialOptions}>
-      <div className=" z-10 mx-auto  flex w-[550px] flex-col  justify-center gap-4 ">
+      <div className=" z-10 mx-auto  flex w-[550px] flex-col justify-center gap-4  max-sm:w-full max-sm:px-4 ">
         <section className="rounded-md bg-primary p-4">
           <div className="mb-2 flex justify-between text-[18px]">
             <p>API Empire</p>

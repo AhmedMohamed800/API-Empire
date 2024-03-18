@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-""" holds class endpoint"""
+"""SQLAlqumy Endpoint module"""
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, Integer, ForeignKey, Enum, Text
 from sqlalchemy.orm import relationship
@@ -7,7 +7,22 @@ from models.requests import RequestMethod
 
 
 class Endpoint(BaseModel, Base):
-    """ This is the Endpoint class. """
+    """
+    This is the Endpoint class.
+
+    Attributes:
+        title (str): The title of the endpoint.
+        url (str): The URL of the endpoint.
+        method (RequestMethod): The HTTP request method of the endpoint.
+        description (str): The description of the endpoint.
+        response_ex (str): The example response of the endpoint.
+        category (str): The category of the endpoint.
+        api_id (int): The foreign key referencing the API object.
+
+    Relationships:
+        api (API): The API object associated with the endpoint.
+    """
+
     __tablename__ = 'endpoint'
 
     title = Column(String(255), nullable=False)
@@ -21,5 +36,5 @@ class Endpoint(BaseModel, Base):
     api = relationship("API")
 
     def __init__(self, *args, **kwargs):
-        """initializes Endpoint object"""
+        """Initializes Endpoint object"""
         super().__init__(*args, **kwargs)
