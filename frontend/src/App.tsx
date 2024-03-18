@@ -14,7 +14,6 @@ import { Route, Routes } from "react-router-dom";
 import Home from "./layouts/Home.tsx";
 import LandingPage from "./pages/LandingPage.tsx";
 import Aboutus from "./pages/Aboutus.tsx";
-import Pricing from "./pages/Pricing.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import BuyReqs from "./pages/BuyReqs.tsx";
 import Checkout from "./pages/Checkout.tsx";
@@ -40,7 +39,7 @@ const App = () => {
       <Route element={<Home />}>
         <Route path="/" index element={<LandingPage />} />
         <Route path="/aboutus" element={<Aboutus />} />
-        <Route path="/pricing" element={<Pricing />} />
+        <Route path="/pricing" element={<BuyReqs />} />
         <Route path="/apihub" element={<APIs />} />
         <Route path="/apihub/:id" element={<API />} />
       </Route>

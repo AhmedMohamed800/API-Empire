@@ -2,12 +2,14 @@ import React from "react";
 import { useEffect, useState } from "react";
 const arrow = require("../assets/payment/arrow.svg") as string;
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 type Props = {};
 
 const BuyReqs = (props: Props) => {
   const [price, setPrice] = useState(1);
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     if (parseInt(event.target.value) > 50000000) return setPrice(50000000);
@@ -19,13 +21,16 @@ const BuyReqs = (props: Props) => {
 
   function getPaymentID(e) {
     if (price === 0 || isNaN(price)) return;
-
-    navigate(`/checkout`, {
-      state: {
-        price: (price * 0.01).toFixed(2),
-        request: price,
-      },
-    });
+    if (pathname.includes("/pricing")) {
+      navigate("/billing");
+    } else {
+      navigate(`/checkout`, {
+        state: {
+          price: (price * 0.01).toFixed(2),
+          request: price,
+        },
+      });
+    }
   }
 
   return (
@@ -171,7 +176,7 @@ const BuyReqs = (props: Props) => {
           className=" self-center rounded-md bg-primary px-6 py-3 hover:opacity-80"
           onClick={getPaymentID}
         >
-          Pay Now
+          {pathname.includes("/pricing") ? "Join Us" : "Pay Now"}
         </button>
       </main>
     </div>
