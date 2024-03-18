@@ -9,3 +9,5 @@ mysql-connector-python
 paypalrestsdk
 flasgger
 pytest
+pillow
+faker
