@@ -17,6 +17,7 @@ import Aboutus from "./pages/Aboutus.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import BuyReqs from "./pages/BuyReqs.tsx";
 import Checkout from "./pages/Checkout.tsx";
+import ActivateEmail from "./pages/ActivateEmail.tsx";
 
 const App = () => {
   return (
@@ -42,6 +43,7 @@ const App = () => {
         <Route path="/pricing" element={<BuyReqs />} />
         <Route path="/apihub" element={<APIs />} />
         <Route path="/apihub/:id" element={<API />} />
+        <Route path="/activate/:token" element={<ActivateEmail />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>

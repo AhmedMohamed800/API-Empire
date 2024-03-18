@@ -89,23 +89,17 @@ export function useFormUP() {
       return;
     }
 
-    const LOGINURL = `${process.env.REACT_APP_API_URL}/api/v1/user`;
+    const LOGINURL = `${process.env.REACT_APP_API_URL}/signup`;
     try {
-      const response = await axios.post(
-        LOGINURL,
-        {
-          email: form.email,
-          password: form.password,
-          last_name: form.last_name,
-          first_name: form.first_name,
-        },
-        {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-        },
-      );
-      navigate("/auth/sign_in");
+      const response = await axios.post(LOGINURL, {
+        email: form.email,
+        password: form.password,
+        last_name: form.last_name,
+        first_name: form.first_name,
+      });
+      navigate("/auth/sign_in", {
+        state: { message: response.data.message },
+      });
     } catch (error) {
       if (error.response) {
         setError(error.response.data.error);

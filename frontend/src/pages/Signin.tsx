@@ -5,8 +5,12 @@ const logo = require("../assets/logo.svg") as string;
 const cover = require("../assets/auth/cover.svg") as string;
 import { useFormIN } from "../components/Auth/AuthHook.tsx";
 import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 function Signin() {
+  const location = useLocation();
+  const message = location.state?.message;
+
   useEffect(() => {
     document.title = "Sign In";
   }, []);
@@ -89,7 +93,11 @@ function Signin() {
           className=" absolute right-0 top-0"
         />
       </form>
-
+      {message && (
+        <p className="rounded-md bg-green-500 p-3 text-center text-white">
+          {message}
+        </p>
+      )}
       <div className=" absolute -right-10 bottom-0  h-56 w-56 rounded-full bg-primary blur-[160px]"></div>
     </section>
   );
