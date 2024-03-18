@@ -22,8 +22,8 @@ const Home = () => {
       <Outlet />
       <Footer />
 
-      <div className=" absolute -right-10 bottom-0 h-56 w-56 rounded-full bg-primary blur-[160px]"></div>
-      <div className=" absolute -left-10 top-0    h-56 w-56 rounded-full bg-primary blur-[160px]"></div>
+      <div className=" absolute -right-10 bottom-0 z-[1] h-56 w-56 rounded-full bg-primary blur-[160px]"></div>
+      <div className=" absolute -left-10 top-0    z-[1] h-56 w-56 rounded-full bg-primary blur-[160px]"></div>
     </section>
   );
 };
