@@ -46,7 +46,7 @@ def users():
         except ValueError as e:
             return jsonify({"error": str(e)}), 400
     try:
-        AUTH.get_code(request.get_json().get('code'))
+        AUTH.get_code(request.get_json().get('token'))
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
     return jsonify({}), 201

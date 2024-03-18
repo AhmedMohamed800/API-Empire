@@ -61,6 +61,8 @@ class AuthEngine:
 
     def add_code(self, code, data):
         """ Adds an authentication code to the tokens dictionary. """
+        if self.__storage.get('User', email=data['email']):
+            raise ValueError("User already exists")
         self.__tokens[code] = data
 
     def get_code(self, code):

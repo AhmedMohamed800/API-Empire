@@ -57,7 +57,7 @@ def test():
     AUTH.add_code(code, data)
     email_body = render_template('active.html', token=code,
                                  first_name=data['first_name'])
-    msg = Message('Password Reset',
+    msg = Message('Activate your account',
                   recipients=[data['email']],
                   html=email_body)
     mail.send(msg)

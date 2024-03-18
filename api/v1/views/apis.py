@@ -51,7 +51,6 @@ def currency():
         ValueError: If there is an error retrieving the exchange rate.
 
     """
-    print('in the endpoint')
     try:
         answer = APIS.currency(request)
         return answer.json(), answer.status_code
