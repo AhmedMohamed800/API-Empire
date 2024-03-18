@@ -1,5 +1,32 @@
 #!/usr/bin/env python3
 """Config module"""
+import re
+import dns.resolver
+
+
+def validate_email(email):
+    """validate email"""
+    pattern = r'^\S+@\S+\.\S+$'
+    if not re.match(pattern, email):
+        raise ValueError('Email does not exist')
+    try:
+        dns.resolver.resolve(email.split('@')[1], 'MX')
+    except Exception as e:
+        raise ValueError('Email does not exist')
+
+
+def check_password(password):
+    """check password"""
+    if len(password) < 7:
+        raise ValueError('Password too short')
+    if not re.search("[a-z]", password):
+        raise ValueError('Password must contain a lowercase letter')
+    if not re.search("[A-Z]", password):
+        raise ValueError('Password must contain an uppercase letter')
+    if not re.search("[0-9]", password):
+        raise ValueError('Password must contain a number')
+    if not re.search("[_@$]", password):
+        raise ValueError('Password must contain a special character')
 
 
 class Config(object):

@@ -2,7 +2,7 @@
 """ Flask Application """
 from models import AUTH
 from api.v1.views import app_views, app_service, app_apis, app_payment
-from models.config import Config
+from models.config import Config, validate_email, check_password
 from flask import Flask, jsonify, request, render_template
 from flask_mail import Mail, Message
 from flask_cors import CORS
@@ -36,6 +36,7 @@ def forgot():
     """send email to user with reset link"""
     email = request.get_json().get('email')
     try:
+        validate_email(email)
         token = AUTH.forgot_password(email)
         first_name = AUTH.get_user_with(email=email).first_name
         email_body = render_template('forgot.html', token=token,
@@ -54,14 +55,16 @@ def test():
     """test"""
     try:
         data = request.get_json()
+        validate_email(data['email'])
+        check_password(data['password'])
         data['Time'] = time()
         code = str(uu())
         AUTH.add_code(code, data)
         email_body = render_template('active.html', token=code,
-                                    first_name=data['first_name'])
+                                     first_name=data['first_name'])
         msg = Message('Activate your account',
-                    recipients=[data['email']],
-                    html=email_body)
+                      recipients=[data['email']],
+                      html=email_body)
         mail.send(msg)
         return jsonify({'Message':
                         'check your email to activate your account'}), 200
