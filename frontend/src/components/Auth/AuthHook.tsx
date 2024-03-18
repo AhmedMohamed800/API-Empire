@@ -11,6 +11,8 @@ type FormIN = {
 };
 
 export function useFormIN() {
+  const [isLoading, setIsLoading] = useState(false);
+
   const [form, setForm] = useState<FormIN>({
     email: "",
     password: "",
@@ -23,10 +25,10 @@ export function useFormIN() {
   async function submitForm(e: any): Promise<void> {
     e.preventDefault();
     setError("");
-    if (!form.email || !form.password) {
+    if (!form.email || !form.password || isLoading) {
       return;
     }
-
+    setIsLoading(true);
     const LOGINURL = `${process.env.REACT_APP_API_URL}/api/v1/login`;
     try {
       const response = await axios.post(
@@ -45,12 +47,14 @@ export function useFormIN() {
       const { session } = response.data;
       Cookies.set("session", JSON.stringify(session));
       navigate("/APIs");
+      setIsLoading(false);
     } catch (error) {
       if (error.response) {
         setError(error.response.data.error);
       } else {
         setError(error.message);
       }
+      setIsLoading(false);
     }
   }
 
@@ -61,7 +65,7 @@ export function useFormIN() {
     setForm({ ...form, [id]: value });
   }
 
-  return { form, error, handleForm, submitForm };
+  return { form, error, handleForm, submitForm, isLoading };
 }
 
 type FormUP = {
@@ -72,6 +76,8 @@ type FormUP = {
 };
 
 export function useFormUP() {
+  const [isLoading, setIsLoading] = useState(false);
+
   const [form, setForm] = useState<FormUP>({
     first_name: "",
     last_name: "",
@@ -85,33 +91,36 @@ export function useFormUP() {
   async function submitForm(e: any): Promise<void> {
     e.preventDefault();
     setError("");
-    if (!form.email || !form.password || !form.first_name || !form.last_name) {
+    if (
+      !form.email ||
+      !form.password ||
+      !form.first_name ||
+      !form.last_name ||
+      isLoading
+    ) {
       return;
     }
-
-    const LOGINURL = `${process.env.REACT_APP_API_URL}/api/v1/user`;
+    setIsLoading(true);
+    const LOGINURL = `${process.env.REACT_APP_API_URL}/signup`;
     try {
-      const response = await axios.post(
-        LOGINURL,
-        {
-          email: form.email,
-          password: form.password,
-          last_name: form.last_name,
-          first_name: form.first_name,
-        },
-        {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-        },
-      );
-      navigate("/auth/sign_in");
+      const response = await axios.post(LOGINURL, {
+        email: form.email,
+        password: form.password,
+        last_name: form.last_name,
+        first_name: form.first_name,
+      });
+
+      navigate("/auth/sign_in", {
+        state: { message: response.data.Message },
+      });
+      setIsLoading(false);
     } catch (error) {
       if (error.response) {
         setError(error.response.data.error);
       } else {
         setError(error.message);
       }
+      setIsLoading(false);
     }
   }
 
@@ -121,7 +130,7 @@ export function useFormUP() {
     setForm({ ...form, [id]: value });
   }
 
-  return { form, error, handleForm, submitForm };
+  return { form, error, handleForm, submitForm, isLoading };
 }
 
 interface FormForget {
@@ -147,7 +156,6 @@ export function useFormForget() {
         email: form.email,
       });
       navigate("/auth/sign_in");
-      console.log(response);
     } catch (error) {
       console.log(error);
       setError(true);

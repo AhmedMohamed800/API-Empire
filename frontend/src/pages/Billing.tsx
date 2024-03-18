@@ -53,7 +53,6 @@ const Billing = () => {
       axios
         .get(requestURL, { headers: { "session-id": JSON.parse(session) } })
         .then((res) => {
-          console.log(res.data);
           if (res.data.available_req === 0) {
             navigate("/buyreqs");
           }
@@ -67,7 +66,6 @@ const Billing = () => {
         .get(invoiceURL, { headers: { "session-id": JSON.parse(session) } })
         .then((res) => {
           const newData = res.data.map((item: any) => {
-            setTotalPrice((prev) => prev + parseFloat(item["amount"]));
             item["invoice_id"] = "#" + item["id"];
             item["Billing Date"] = item["created_at"];
             item["requests"] = item["request"];
@@ -76,6 +74,12 @@ const Billing = () => {
             delete item["created_at"];
             delete item["request"];
             return item;
+          });
+          setTotalPrice((prev) => {
+            return res.data.reduce(
+              (acc, cur) => parseFloat(acc) + parseFloat(cur.amount),
+              0,
+            );
           });
           setInvoices(newData);
         })
@@ -111,8 +115,11 @@ const Billing = () => {
           </p>
           <div className="relative h-4 rounded-full bg-white before:h-5 ">
             <span
-              className="absolute left-0 top-0 h-4 rounded-s-full bg-primary"
-              style={{ width: `${(reqs.used_req / reqs.max_req) * 100}%` }}
+              className={`absolute left-0 top-0 h-4 rounded-s-full bg-primary`}
+              style={{
+                width: `${(reqs.used_req / reqs.max_req) * 100}%`,
+                minWidth: "10px",
+              }}
             ></span>
           </div>
         </div>

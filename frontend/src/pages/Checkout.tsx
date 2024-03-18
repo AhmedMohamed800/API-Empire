@@ -56,7 +56,6 @@ const Checkout = () => {
   const onApprove = (data, actions) => {
     return actions.order.capture().then((details) => {
       const CreatePaymentURL = `${process.env.REACT_APP_API_URL}/api/v1/payment/execute`;
-      console.log(details);
 
       const session = Cookies.get("session");
       if (session) {
