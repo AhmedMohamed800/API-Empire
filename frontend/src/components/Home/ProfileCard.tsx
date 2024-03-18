@@ -24,13 +24,12 @@ const ProfileCard = ({
   return (
     <div className="coolbg flex  w-[550px] flex-col justify-between gap-3 rounded-md border-2 border-primary p-4 max-sm:w-full">
       <div className=" flex items-center gap-3">
-        <img
-          src={image}
-          alt={name}
-          width="64px"
-          height="64px"
-          className=" h-[70px] w-[70px] rounded-full"
-        />
+        <div
+          style={{
+            backgroundImage: `url(${image})`,
+          }}
+          className=" h-[70px] w-[70px] rounded-full border-2 border-primary bg-cover bg-center  bg-no-repeat"
+        ></div>
         <div>
           <h4 className="text-xl font-semibold">{name}</h4>
           <p className=" text-neutral-200">{position}</p>

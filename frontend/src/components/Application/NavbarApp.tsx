@@ -4,13 +4,14 @@ import { useContext } from "react";
 import { UserContext } from "../Auth/AuthHook.tsx";
 import { useState } from "react";
 import NavDrop from "./NavDrop.tsx";
-import default_photo from "../../assets/application/default_photo.jpeg";
+const default_photo =
+  require("../../assets/application/default_photo.jpeg") as string;
 import { NavLink } from "react-router-dom";
+import Skeleton from "react-loading-skeleton";
 
 const NavbarApp = () => {
   const [Dropdown, setDropdown] = useState<boolean>(false);
   const { user }: any = useContext(UserContext);
-
   return (
     <nav className=" relative  z-20 flex items-center  justify-between border-b border-neutral-400 px-20 py-2 max-sm:px-5">
       <NavLink to="/User">
@@ -30,7 +31,13 @@ const NavbarApp = () => {
         ></div>
         <div className="text-right">
           <p className=" text-[16px] text-primary">
-            {user.first_name} {user.last_name}
+            {user.first_name ? (
+              <>
+                {user.first_name} {user.last_name}
+              </>
+            ) : (
+              <Skeleton duration={2} />
+            )}
           </p>
           <p className=" text-[14px] text-neutral-400">Open your profile</p>
         </div>

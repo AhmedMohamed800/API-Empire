@@ -10,7 +10,7 @@ function Signup() {
   useEffect(() => {
     document.title = "Sign Up";
   }, []);
-  const { form, error, handleForm, submitForm } = useFormUP();
+  const { form, error, handleForm, submitForm, isLoading } = useFormUP();
 
   return (
     <section className="flex w-[50%] flex-col  items-center gap-10 bg-background px-20 pt-[55px] max-xl:px-10 max-lg:w-[100%] max-sm:px-5">
@@ -81,7 +81,7 @@ function Signup() {
         <p className="text-red-500">{error}</p>
 
         <button className="mt-6 rounded-md bg-primary py-3 font-bold text-white hover:opacity-80">
-          Sign up
+          {isLoading ? "Loading..." : "Sign Up"}
         </button>
 
         <img

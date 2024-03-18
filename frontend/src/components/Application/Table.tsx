@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 const arrow = require("../../assets/apis/arrow.svg") as string;
+import Skeleton from "react-loading-skeleton";
 
 const Table = ({ header, content, generateUUID }) => {
-  console.log(content);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (content.length > 0) {
+      setIsLoading(false);
+    }
+  }, [content]);
+
   const noContent = (
     <tr key={generateUUID()} className="tr">
       {header.map((key) => (
@@ -31,19 +39,29 @@ const Table = ({ header, content, generateUUID }) => {
           </tr>
         </thead>
         <tbody>
-          {content.length > 0
-            ? content.map((data) => {
-                return (
-                  <tr key={generateUUID()} className="tr">
-                    {header.map((key) => (
-                      <td className="td" key={generateUUID()}>
-                        {data[key]}
-                      </td>
-                    ))}
-                  </tr>
-                );
-              })
-            : noContent}
+          {isLoading ? (
+            <tr className="tr">
+              {header.map((key) => (
+                <td className="td" key={generateUUID()}>
+                  <Skeleton count={1} />
+                </td>
+              ))}
+            </tr>
+          ) : content.length > 0 ? (
+            content.map((data) => {
+              return (
+                <tr key={generateUUID()} className="tr">
+                  {header.map((key) => (
+                    <td className="td" key={generateUUID()}>
+                      {data[key]}
+                    </td>
+                  ))}
+                </tr>
+              );
+            })
+          ) : (
+            noContent
+          )}
         </tbody>
       </table>
     </div>

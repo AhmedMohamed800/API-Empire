@@ -12,7 +12,6 @@ const ActivateEmail = (props: Props) => {
 
   useEffect(() => {
     const ACTIVATEURL = `${process.env.REACT_APP_API_URL}/api/v1/user`;
-    console.log(ACTIVATEURL);
     axios
       .post(ACTIVATEURL, {}, { headers: { token } })
       .then((res) => {

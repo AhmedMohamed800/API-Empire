@@ -10,12 +10,11 @@ import { useLocation } from "react-router-dom";
 function Signin() {
   const location = useLocation();
   const message = location.state?.message;
-
   useEffect(() => {
     document.title = "Sign In";
   }, []);
 
-  const { form, error, handleForm, submitForm } = useFormIN();
+  const { form, error, handleForm, submitForm, isLoading } = useFormIN();
   return (
     <section className="flex w-[50%] flex-col  items-center gap-10 bg-background px-20 pt-[55px] max-xl:px-10 max-lg:w-[100%] max-sm:px-5">
       <article className="flex flex-col items-center justify-center gap-1 font-semibold">
@@ -29,6 +28,11 @@ function Signin() {
           Unleash the Power of Connectivity
         </p>
       </article>
+      {message && (
+        <p className="rounded-md bg-green-500 p-3 text-center font-semibold capitalize text-white">
+          {message}
+        </p>
+      )}
       <form
         onSubmit={submitForm}
         autoComplete="off"
@@ -82,7 +86,7 @@ function Signin() {
         </div>
 
         <button className="mt-6 rounded-md bg-primary py-3 font-bold text-white hover:opacity-80">
-          Sign In
+          {isLoading ? "Loading..." : "Sign In"}
         </button>
 
         <img
@@ -93,11 +97,7 @@ function Signin() {
           className=" absolute right-0 top-0"
         />
       </form>
-      {message && (
-        <p className="rounded-md bg-green-500 p-3 text-center text-white">
-          {message}
-        </p>
-      )}
+
       <div className=" absolute -right-10 bottom-0  h-56 w-56 rounded-full bg-primary blur-[160px]"></div>
     </section>
   );
