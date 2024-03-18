@@ -61,6 +61,8 @@ class AuthEngine:
 
     def add_code(self, code, data):
         """ Adds an authentication code to the tokens dictionary. """
+        if self.__storage.get('User', email=data['email']):
+            raise ValueError("User already exists")
         self.__tokens[code] = data
 
     def get_code(self, code):
@@ -69,10 +71,10 @@ class AuthEngine:
         if code not in self.__tokens.keys():
             raise ValueError("no code found")
         del self.__tokens[code]['Time']
-        self.create_user(self.__tokens[code])
+        self.create_user(**self.__tokens[code])
         del self.__tokens[code]
         for k, v in self.__tokens.items():
-            if v['Time'] < time() - 300:
+            if v['Time'] < time() - 900:
                 del self.__tokens[k]
 
     def create_user(self, **kwargs):

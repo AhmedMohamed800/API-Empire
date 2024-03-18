@@ -2,11 +2,12 @@
 """ Flask Application """
 from models import AUTH
 from api.v1.views import app_views, app_service, app_apis, app_payment
-from models.config import Config
+from models.config import Config, validate_email, check_password
 from flask import Flask, jsonify, request, render_template
 from flask_mail import Mail, Message
 from flask_cors import CORS
-from datetime import timedelta, datetime
+from datetime import timedelta
+from time import time
 import secrets
 from uuid import uuid4 as uu
 
@@ -35,6 +36,7 @@ def forgot():
     """send email to user with reset link"""
     email = request.get_json().get('email')
     try:
+        validate_email(email)
         token = AUTH.forgot_password(email)
         first_name = AUTH.get_user_with(email=email).first_name
         email_body = render_template('forgot.html', token=token,
@@ -45,24 +47,30 @@ def forgot():
         mail.send(msg)
     except Exception as e:
         return jsonify({'error': str(e)}), 400
-    return jsonify({'Message': 'check your email'}), 200
+    return jsonify({'Message':
+        'check your email to reset your password'}), 200
 
 
 @app.route('/signup', methods=['POST'], strict_slashes=False)
 def test():
     """test"""
-    data = request.get_json()
-    data['Time'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    code = str(uu())
-    AUTH.add_code(code, data)
-    email_body = render_template('active.html', token=code,
-                                 first_name=data['first_name'])
-    msg = Message('Password Reset',
-                  recipients=[data['email']],
-                  html=email_body)
-    mail.send(msg)
-    return jsonify({'Message':
-                    'check your email to activate your account'}), 200
+    try:
+        data = request.get_json()
+        validate_email(data['email'])
+        check_password(data['password'])
+        data['Time'] = time()
+        code = str(uu())
+        AUTH.add_code(code, data)
+        email_body = render_template('active.html', token=code,
+                                     first_name=data['first_name'])
+        msg = Message('Activate your account',
+                      recipients=[data['email']],
+                      html=email_body)
+        mail.send(msg)
+        return jsonify({'Message':
+                        'check your email to activate your account'}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
 
 
 if __name__ == "__main__":
