@@ -12,7 +12,7 @@ const NavnarHome = (props: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <nav
-      className={`relative z-20 flex items-center justify-between  ${pathname.includes("/apihub") && "border-b border-neutral-400"} px-20 py-4`}
+      className={`relative z-20 flex items-center justify-between max-sm:px-5  ${pathname.includes("/apihub") && "border-b border-neutral-400"} px-20 py-4 `}
     >
       <NavLink to="/" className="w-[160px]">
         <img src={logo} alt="logoLanding" width="50px" height="50px" />
