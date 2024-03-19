@@ -1,7 +1,6 @@
 flask
 pyodbc
 configparser
-mysqlclient
 sqlalchemy
 bcrypt
 flask_sqlalchemy
@@ -11,4 +10,3 @@ mysql-connector-python
 paypalrestsdk
 flasgger
 requests
-guincorn
