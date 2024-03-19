@@ -21,8 +21,6 @@ services:
       - "5000:5000"
     depends_on:
       - mysql
-    stdin_open: true
-    tty: true
 
 volumes:
   db_data: {}
