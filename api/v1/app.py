@@ -12,7 +12,7 @@ import secrets
 from uuid import uuid4 as uu
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='./build', static_url_path='/')
 app.secret_key = secrets.token_hex(16)
 app.config.from_object(Config)
 app.url_map.strict_slashes = False
@@ -29,6 +29,12 @@ mail = Mail(app)
 def close_db(error):
     """ Close Storage """
     AUTH.close()
+
+
+@app.errorhandler(404)
+@app.route('/')
+def frond_end(e=None):
+    return app.send_static_file('index.html')
 
 
 @app.route('/forgot_password', methods=['POST'])

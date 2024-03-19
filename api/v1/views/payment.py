@@ -95,6 +95,7 @@ def execute_payment():
                            request.get_json()['amount'])
         return jsonify({"message": "payment is successfully done"}), 200
     except ValueError as e:
+        print(str(e))
         return jsonify({"error": str(e)}), 400
 
 
@@ -113,4 +114,5 @@ def all_payment():
         data = INV.get_invoice(request.headers['session-id'])
         return jsonify(data), 200
     except ValueError as e:
+        print(str(e))
         return jsonify({"error": str(e)}), 400

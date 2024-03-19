@@ -41,4 +41,5 @@ def get_service(service_id):
     try:
         return jsonify(SERVICE.get(service_id)), 200
     except ValueError as e:
+        print(str(e))
         return jsonify({"error": str(e)}), 404

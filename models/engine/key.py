@@ -34,6 +34,7 @@ class KeyEngine:
         user = self.__storage.get('User', session_id=session_id)
         if not user:
             raise ValueError("No user found")
+        delete_key = None
         key = Auth()
         if user.auth_id is None:
             key.max_req = 1000
@@ -41,11 +42,14 @@ class KeyEngine:
         else:
             key.max_req = user.auth.max_req
             key.used_req = user.auth.used_req
-            self.__storage.delete(user.auth)
+            delete_key = user.auth
         key.hashed_key = str(uuid4())
         user.auth = key
         self.__storage.new(key)
         self.__storage.save()
+        if delete_key:
+            self.__storage.delete(delete_key)
+            self.__storage.save()
         return key.hashed_key
 
     def get_key(self, session_id):

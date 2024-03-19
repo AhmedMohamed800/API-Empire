@@ -54,5 +54,6 @@ def currency():
     try:
         answer = APIS.currency(request)
         return answer.json(), answer.status_code
-    except ValueError as e:
+    except Exception as e:
+        print(str(e))
         return jsonify({"Error": str(e)}), 400

@@ -87,16 +87,16 @@ class ApisEngine:
         """
         try:
             if not request.headers.get('X-APIEMPIR-KEY'):
-                raise ValueError({"Error": "Unauthorized"})
+                raise ValueError("Unauthorized")
         except Exception:
-            raise ValueError({"Error": "Unauthorized"})
+            print("here?")
+            raise ValueError("Unauthorized")
 
         if not self.check_key(request.headers.get('X-APIEMPIR-KEY')):
-            raise ValueError({"Error": "Unauthorized"})
-
+            raise ValueError("Unauthorized")
         key = 'access_key=m4UqvZZH7GW4UFoW'
         api_url =\
-            f'https://api.exchangeratesapi.net/v1/exchange-rates/latest?{key}'
+                f'https://api.exchangeratesapi.net/v1/exchange-rates/latest?{key}'
         api_url += f'&base={request.args["base"]}'
         response = requests.get(api_url)
 
@@ -141,9 +141,11 @@ class ApisEngine:
         key = self.__storage.get('Auth', hashed_key=key)
 
         if not key:
+            print("no key")
             return False
 
         if key.max_req <= key.used_req:
+            print('max req')
             return False
 
         return True

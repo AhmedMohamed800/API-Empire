@@ -12,6 +12,7 @@ Routes:
 from api.v1.views import app_views
 from flask import jsonify, request
 from models import AUTH, KEY
+from models.config import check_password
 
 
 @app_views.route('/user', methods=['GET', 'POST', 'PUT'], strict_slashes=False)
@@ -37,6 +38,7 @@ def users():
             user = AUTH.get_user(session_id=request.headers.get('session-id'))
             return jsonify(user), 200
         except ValueError as e:
+            print(str(e))
             return jsonify({"error": str(e)}), 400
     elif request.method == 'PUT':
         try:
@@ -45,10 +47,12 @@ def users():
             return jsonify({"Message":
                 "Your data have been updated succefully"}), 200
         except ValueError as e:
+            print(str(e))
             return jsonify({"error": str(e)}), 400
     try:
         AUTH.get_code(request.headers.get('token'))
     except ValueError as e:
+        print(str(e))
         return jsonify({"error": str(e)}), 400
     return jsonify({"Message":
         "User created succefully"}), 201
@@ -77,11 +81,13 @@ def login():
             return jsonify({"email": request.form.get('email'),
                            "session": session_id}), 200
         except ValueError as e:
+            print(str(e))
             return jsonify({"error": str(e)}), 400
     try:
         AUTH.logout(request.headers.get('session-id'))
         return jsonify({"message": "Successfully logged out"}), 200
     except ValueError as e:
+        print(str(e))
         return jsonify({"error": str(e)}), 400
 
 
@@ -103,9 +109,11 @@ def reset():
     password = request.get_json().get('password')
     token = request.headers.get('reset-token')
     try:
+        check_password(password)
         AUTH.reset_password(token, password)
         return jsonify({"message": "Password reset successfully"}), 200
     except ValueError as e:
+        print(str(e))
         return jsonify({"error": str(e)}), 400
 
 
@@ -127,6 +135,7 @@ def get_key():
         return jsonify({"message": "API key created successfully",
                         "key": key}), 201
     except ValueError as e:
+        print(str(e))
         return jsonify({"error": str(e)}), 400
 
 
@@ -138,6 +147,7 @@ def get_reqs():
                        (request.headers
                         .get('session-id'))), 200
     except ValueError as e:
+        print(str(e))
         return jsonify({"error": str(e)}), 400
 
 
@@ -162,4 +172,5 @@ def reqs():
     try:
         return jsonify(AUTH.reqs(request.headers.get('session-id'))), 200
     except ValueError as e:
+        print(str(e))
         return jsonify({"error": str(e)}), 400
