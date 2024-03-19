@@ -30,4 +30,4 @@ RUN apk add --update tmux
 # Switch back to the main directory
 RUN cd /empire
 
-CMD ["python3", "-m", "api.v1.app"]
+RUN python3 -m api.v1.app
