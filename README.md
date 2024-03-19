@@ -2,11 +2,15 @@
 
 Api Empire is a platform that provides various APIs for developers through subscription-based services.
 
+![API Empire's APIs](https://i.imgur.com/1CPIPPn.png)
+
 ## Table of Contents
 
 1. [Teconologies](#teconologies)
 2. [How to Run the Application](#run)
-3. [Team](#team)
+3. [Featuers](#featuers)
+4. [Team](#team)
+5. [License](#license)
 
 ## Teconologies
 
@@ -68,12 +72,35 @@ Api Empire is a platform that provides various APIs for developers through subsc
 
 ### 3. Back-end:
 
+- Navigate to the setup directory.
+- Write the following command to run the application:
+
+  ```bash
+  pip install -r requirements.txt
+  ```
+
 - Navigate to the root directory.
 - Write the following command to run the application:
 
   ```bash
   tmux new-session -d 'gunicorn --bind 0.0.0.0:5002 api.v1.app:app'
   ```
+
+## Featuers
+
+### 1. Various APIs with one price:
+
+Our application provides access to a wide range of APIs, all available under a single pricing plan. Whether you need access to payment processing, geolocation services, or social media integrations, our unified pricing model ensures simplicity and cost-effectiveness for your development needs.
+
+### 2. Access to Your Request History:
+
+Gain insight into your past requests with our application. Easily track and review the requests you've made, empowering you with valuable data for analysis, optimization, and troubleshooting.
+
+### 3. Flexible Request Purchasing:
+
+Enjoy the freedom to buy requests according to your specific needs. Whether you require a small volume for occasional usage or a large quantity for extensive projects, our platform allows you to purchase any amount of requests, providing flexibility and cost-effectiveness tailored to your requirements.
+
+## Usage
 
 ## Team
 
@@ -84,3 +111,7 @@ Api Empire is a platform that provides various APIs for developers through subsc
 ### 2. Abdelrhman (DINAMOW) Abdelhameed:
 
 - Responsible for designing the database, configuring the server, and developing the back end.
+
+## License
+
+This project is licensed under the MIT License.
