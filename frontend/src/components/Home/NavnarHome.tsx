@@ -46,10 +46,10 @@ const NavnarHome = (props: Props) => {
       </div>
       <div className="flex w-[160px] items-center  gap-3 font-semibold max-lg:hidden [&>a:hover]:opacity-80">
         <NavLink to="/auth/sign_in" className="">
-          Sing in
+          Sign in
         </NavLink>
         <NavLink to="/auth/sign_up" className="rounded-md bg-primary px-4 py-2">
-          Join US
+          Join us
         </NavLink>
       </div>
       <button
