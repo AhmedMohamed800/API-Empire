@@ -29,4 +29,4 @@ RUN pip install gunicorn
 # Switch back to the main directory
 WORKDIR /empire
 
-CMD ["python3", "api.v1.app"]
+CMD ["python3", "-m", "api.v1.app"]
