@@ -32,14 +32,14 @@ const API = () => {
   return (
     <section className="z-10 mx-20 my-10 flex flex-col gap-6 max-sm:mx-5">
       <header
-        className="flex items-center gap-6 rounded-md border-2 border-primary p-4"
+        className="flex items-center gap-6 rounded-md border-2 border-primary p-4 max-sm:flex-col"
         style={{
           background:
             "linear-gradient(180deg, rgba(99, 91, 255, 0.00) 0%, rgba(99, 91, 255, 0.50) 100%)",
         }}
       >
-        <div className=" flex w-80 flex-col">
-          <h1 className=" gap-2 text-3xl font-bold text-primary">
+        <div className=" flex w-80 flex-col  max-sm:w-full max-sm:text-center">
+          <h1 className=" gap-2 text-3xl font-bold capitalize text-primary">
             {endpoints[endpoints.length - 1] &&
               endpoints[endpoints.length - 1]["title"]}
           </h1>
@@ -58,7 +58,7 @@ const API = () => {
           <code>X-APIEMPIR-KEY: [Your API Key]</code>
         </p>
       </div>
-      <main className=" flex flex-col gap-4 border-t-2 border-white pt-6">
+      <main className=" flex flex-col gap-4  border-t-2 border-white pt-6">
         {endpoints.length > 0 &&
           endpoints.map((ele, i) => {
             if (i === endpoints.length - 1) return null;
@@ -73,6 +73,7 @@ const API = () => {
                 url={ele.url}
                 response_ex={ele.response_ex}
                 category={ele.category}
+                base={baseURL && new URL(baseURL).origin}
               />
             );
           })}

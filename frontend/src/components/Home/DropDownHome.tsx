@@ -13,7 +13,7 @@ const DropDownHome: React.FC<Props> = ({ Dropdown, setIsOpen }) => {
   return (
     <div
       onClick={Close}
-      className={`${Dropdown ? "block" : "hidden"} absolute right-10 top-14 z-50 flex  w-44 flex-col gap-2   rounded-sm bg-black text-center  lg:hidden [&>a:hover]:opacity-80 [&>a]:rounded-sm [&>a]:px-2 [&>a]:py-3 [&>a]:text-[16px]`}
+      className={`${Dropdown ? "block" : "hidden"} absolute right-[50%] top-16 z-50 flex w-[100%]   translate-x-[50%] flex-col gap-2   rounded-sm bg-black text-center  lg:hidden [&>a:hover]:opacity-80 [&>a]:rounded-sm [&>a]:px-2 [&>a]:py-3 [&>a]:text-[16px]`}
     >
       <NavLink
         to="/"

@@ -3,11 +3,13 @@ import CustomJSONViewer from "./CustomJSONViewer.tsx";
 
 const APIHeader = ({ headerOpen, queries, response }) => {
   return (
-    <div className={`flex flex-col ${headerOpen || "hidden"}`}>
+    <div
+      className={`flex flex-col ${headerOpen || "hidden"}  overflow-x-auto max-sm:w-[300%] max-sm:pr-10`}
+    >
       <div>
         <h2 className=" rounded-t-md bg-black p-4 font-semibold">Parameters</h2>
         <section className=" bg-primary p-4 [&>div]:flex [&>div]:gap-20 ">
-          <div className=" gap-20 border-b-2 border-white pb-2">
+          <div className=" w-full gap-20 border-b-2 border-white pb-2">
             <h3 className="table_api">Name</h3>
             <h3 className="table_api">value</h3>
             <h3 className="table_api">type</h3>
@@ -25,7 +27,7 @@ const APIHeader = ({ headerOpen, queries, response }) => {
           })}
         </section>
       </div>
-      <div className="">
+      <div className="max-sm:w-[200%]">
         <h2 className="rounded-t-md  bg-black p-4 font-semibold">Responses</h2>
         <section className="rounded-b-md bg-primary p-4 [&>div]:flex [&>div]:gap-20">
           <div className=" gap-20 border-b-2 border-white pb-2">

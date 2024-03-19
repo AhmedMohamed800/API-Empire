@@ -33,7 +33,7 @@ const LandingPage = (props: Props) => {
         </NavLink>
       </header>
       <section
-        className="bg-cotain  relative h-[700.88px] rounded-md  bg-black bg-center bg-no-repeat max-lg:h-[500px] max-sm:h-[400px] xl:mx-20"
+        className="bg-cotain relative  h-[700.88px] rounded-md bg-black  bg-center bg-no-repeat max-lg:h-[500px] max-sm:hidden max-sm:h-[400px] xl:mx-20"
         style={{ backgroundImage: `url(${apis})` }}
       >
         <span className=" absolute left-0 top-0 -z-10  h-[700px] w-full bg-primary blur-[110px]"></span>
@@ -58,10 +58,10 @@ const LandingPage = (props: Props) => {
           />
         </div>
         <div className="flex  flex-col gap-3">
-          <h4 className="text-2xl font-bold">
+          <h4 className="text-2xl font-bold max-sm:text-center">
             Unlock Innovation with Diverse API Toolkit
           </h4>
-          <p className="  mb-5 w-[500px] break-words text-justify text-neutral-400 max-sm:w-full">
+          <p className="  mb-5 w-[500px] break-words text-justify text-neutral-400 max-sm:w-full ">
             Access a diverse range of APIs covering crucial functionalities such
             as Social Media, Natural Language Processing, Image Recognition, and
             more.

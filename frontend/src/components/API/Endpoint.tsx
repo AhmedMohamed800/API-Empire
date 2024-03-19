@@ -9,6 +9,7 @@ interface EndpointProps {
   url: string;
   response_ex: string;
   category: string;
+  base: string;
 }
 
 const Endpoint: React.FC<EndpointProps> = ({
@@ -19,6 +20,7 @@ const Endpoint: React.FC<EndpointProps> = ({
   url,
   response_ex,
   category,
+  base,
 }) => {
   const restURL = new URL(url);
   const queries = restURL.searchParams;
@@ -37,16 +39,40 @@ const Endpoint: React.FC<EndpointProps> = ({
     <>
       <div
         style={{ background: backgroundColor }}
-        className={`${method === "GET" ? "border-primary" : "border-post"} flex cursor-pointer items-center gap-4 rounded-md border-2 p-4`}
-        onClick={() => setHeaderOpen(!headerOpen)}
+        className={`${method === "GET" ? "border-primary" : "border-post"} flex w-full cursor-pointer  items-center gap-4 rounded-md border-2 p-4`}
+        onClick={(e) => {
+          if (
+            e.target instanceof HTMLElement &&
+            !(e.target.tagName === "BUTTON")
+          ) {
+            setHeaderOpen(!headerOpen);
+          }
+        }}
       >
         <p
           className={`${method === "GET" ? "bg-primary" : "bg-post text-black"} rounded-md px-4 py-[3px] font-semibold uppercase`}
         >
           {method}
         </p>
-        <p className="grow font-semibold">
+        <p className="relative grow font-semibold">
           {restURL.pathname}
+          <button
+            className=" mb-2 ml-4 rounded-md bg-primary px-2 py-[1px] hover:opacity-80 max-sm:absolute max-sm:-left-[94px] max-sm:bottom-10"
+            onClick={() => {
+              const URL = `${base}${restURL.pathname}${restURL.search}`;
+              navigator.clipboard
+                .writeText(URL)
+                .then(() => {
+                  alert("URL copied to clipboard");
+                })
+                .catch((err) => {
+                  console.error("Could not copy text: ", err);
+                });
+            }}
+          >
+            Copy
+          </button>
+
           <span
             className="overflow-hidden  text-sm text-neutral-300"
             style={{
@@ -65,7 +91,7 @@ const Endpoint: React.FC<EndpointProps> = ({
           viewBox="0 0 18 20"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          className={`${headerOpen && "rotate-180"} transition-transform duration-300 ease-in-out`}
+          className={`${headerOpen && "rotate-180"} h-[22px] w-[20px] transition-transform duration-300 ease-in-out`}
         >
           <g id="icon">
             <path

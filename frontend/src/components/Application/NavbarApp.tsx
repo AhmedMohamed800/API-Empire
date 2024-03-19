@@ -14,7 +14,7 @@ const NavbarApp = () => {
   const { user }: any = useContext(UserContext);
   return (
     <nav className=" relative  z-20 flex items-center  justify-between border-b border-neutral-400 px-20 py-2 max-sm:px-5">
-      <NavLink to="/User">
+      <NavLink to="/APIs">
         <img src={logo} alt="logo3" />
       </NavLink>
 

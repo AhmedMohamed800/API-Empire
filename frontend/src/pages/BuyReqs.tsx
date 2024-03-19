@@ -34,17 +34,17 @@ const BuyReqs = (props: Props) => {
   }
 
   return (
-    <div className="z-10 mx-20 mb-10 mt-14 flex flex-col gap-20 max-sm:mx-5">
+    <div className="z-10 mx-20 mb-10 mt-14 flex flex-col gap-20 max-sm:mx-5 max-sm:gap-10">
       <header className={`flex flex-col gap-5 `}>
         <p className="text-center text-[18px] font-semibold leading-4 text-primary">
           PRICING
         </p>
-        <h1 className="text-center text-4xl font-semibold text-white">
+        <h1 className="text-center text-4xl font-semibold text-white max-sm:text-2xl">
           Transparent, Flexible, Affordable
         </h1>
       </header>
       <main
-        className={`mx-auto flex w-[800px] flex-col gap-6 max-lg:w-[500px] max-sm:w-full `}
+        className={`mx-auto flex w-[800px] flex-col gap-6 max-lg:w-[500px] max-sm:w-full max-sm:gap-8 `}
       >
         <div className="self-center rounded-md bg-primary px-6 py-3 text-center">
           <h4>Estimated Cost</h4>
@@ -53,7 +53,7 @@ const BuyReqs = (props: Props) => {
         <div className="flex flex-col gap-6">
           <label
             htmlFor="price"
-            className="flex  items-center justify-center gap-6"
+            className="flex  items-center justify-center gap-6 max-sm:gap-3"
           >
             <span className="rounded-md bg-primary px-4 py-[10px]">
               Requests
@@ -69,7 +69,7 @@ const BuyReqs = (props: Props) => {
               className="w-full rounded-md border-2 border-white bg-transparent px-4 py-2 text-white focus:outline-none"
             />
           </label>
-          <section className="flex justify-between max-sm:flex-col max-sm:items-center">
+          <section className="flex justify-between max-sm:hidden max-sm:flex-col max-sm:items-center">
             <div className="flex gap-6">
               <button className="flex flex-col items-center gap-2">
                 <img
