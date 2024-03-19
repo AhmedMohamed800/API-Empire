@@ -26,7 +26,9 @@ RUN apk add --update
 
 RUN pip install mysqlclient
 RUN pip install gunicorn
+RUN apk add --update tmux
 # Switch back to the main directory
 WORKDIR /empire
 
+# CMD ["gunicorn", "--bind", "0.0.0.0:5000", "api.v1.app:app"]
 CMD ["python3", "-m", "api.v1.app"]
