@@ -3,9 +3,12 @@ FROM nginx:alpine
 
 RUN apk add python3-dev py3-pip build-base libressl-dev musl-dev libffi-dev
 RUN pip3 install pip --upgrade
-RUN pip3 install cerbot-nginx
+RUN pip3 install certbot-nginx 
 RUN mkdir /etc/letsencrypt
+
+# Copy the Nginx configuration file and proxy_params file into the Docker image
 COPY default.conf /etc/nginx/conf.d/default.conf
+COPY proxy_params /etc/nginx/proxy_params
 
 
-RUN certbot --nginx -d apiempire.site -d www.apiempire.site
+CMD ["nginx", "-g", "daemon off;"]
