@@ -8,7 +8,7 @@ sudo apt-get update
 sudo apt-get -y upgrade
 
 # install python3 and pip3.
-sudo apt-get install -y python3 python3-pip
+sudo apt-get install -y python3 python3-pip python3-dev default-libmysqlclient-dev build-essential pkg-config
 
 # install the required python packages.
 pip3 install -r requirements.txt
@@ -20,7 +20,7 @@ sudo apt-get install -y mysql-server
 sudo systemctl start mysql
 
 # setup the database.
-cat api.sql | sudo mysql
+cat api.sql | sudo mariadb
 
 # insert data in the db
 ./script.py

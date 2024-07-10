@@ -10,3 +10,6 @@ mysql-connector-python
 paypalrestsdk
 flasgger
 requests
+pillow
+faker
+mysqlclient
